@@ -15,6 +15,6 @@ jobs:
         uses: actions/checkout@v2
 
       # Runs the Super-Linter action
-      - name: Build
-      - run: npm run deploy
+      - name: Build and deploy
+        run: npm run deploy
 
