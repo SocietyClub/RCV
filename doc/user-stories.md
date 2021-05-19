@@ -4,7 +4,6 @@ User Stories and Constraints for MVP Milestone
 
 Poll Creator
 Voter
-Viewer
 
 # User Stores
 
