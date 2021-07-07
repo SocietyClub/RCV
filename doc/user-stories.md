@@ -31,6 +31,7 @@ As a Poll Creator, I would like the poll to only be editable by me, because I wa
 TODO:
 - Feature Idea: Poll Creator choose if votes can be edited
 - Feature Idea: Poll Creator see how many people have clicked the link vs votes have been cast
+- Feature Idea: Poll Creator can set an optional End Date for the poll.
 
 ## Voter
 
@@ -66,3 +67,5 @@ LIMIT >=2 candidates ranked per vote
     Reason: Force users to do ranked choice voting
 UNIQUE Constraint on Candidate Name 
     Reason: Prevent users from confusing voters with same choice. If we add other values like description or image, we may revisit this.
+
+All timezones should be in ISOFormat.
