@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ## User Story:
-As a Poll Creator, I would like to be able to create a poll with a title and a set of candidates by name, because I would like a way to make a decision.
+As a STAKEHOLDER, I would like INTENT, because IMPACT.
 
 ## [Figma Design](Link to figma page for this feature if applicable)
 ![Figma Image]()
