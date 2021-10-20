@@ -1,0 +1,9 @@
+.textField,
+.candidateTextField {
+  max-width: 600px;
+}
+
+.updatePollButton {
+  width: 200px;
+  margin-left: auto;
+}
