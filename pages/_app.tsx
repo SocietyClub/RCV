@@ -1,8 +1,10 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Header from '../components/Header'
-import { green, deepPurple } from '@material-ui/core/colors';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
+import { deepPurple, green } from '@mui/material/colors';
+import React from 'react';
+
 
 const theme = createTheme({
   palette: {

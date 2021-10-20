@@ -1,0 +1,28 @@
+.page {
+  /* background: red; */
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.contentContainer {
+  position: relative;
+  /* background: blue; */
+  width: 70vw;
+  min-width: 680px; /* TODO: Figure out a decent value to switch to mobile view */
+  max-width: 1280px;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.mainContent {
+  /* background: green; */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent > * {
+  padding: 5px 0;
+}
