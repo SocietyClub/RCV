@@ -10,7 +10,7 @@ export const CreatePollRequest = (data: CreatePollRequest) => {
   }).then((data) => data.json());
 };
 
-export const UpdatePollRequest = (id: String, data: UdpatePollRequest) => {
+export const UpdatePollRequest = (id: String, data: UpdatePollRequest) => {
   return fetch(`http://localhost:8080/ranked-choice-vote/v1/poll/${id}`, {
     method: "PATCH",
     mode: "cors",

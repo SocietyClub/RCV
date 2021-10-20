@@ -4,7 +4,7 @@ type CreatePollRequest = {
   candidateList: Array<Candidate>;
 }
 
-type UdpatePollRequest = {
+type UpdatePollRequest = {
   pollOpen?: boolean;
   pollName?: string;
   maxNumRankedChoiceCount?: number;
