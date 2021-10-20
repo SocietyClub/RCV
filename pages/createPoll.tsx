@@ -11,10 +11,9 @@ import PollInputForm from "../components/PollInputForm";
 const CreatePollPage: NextPage = () => {
   const [pollName, setPollName] = useState("");
   const [maxNumRankedChoiceCount, setMaxNumRankedChoiceCount] = useState(3);
-  const [candidateList, setCandidateList] = useState([{ name: "" }]);
+  const [candidateList, setCandidateList] = useState<Array<Candidate>>([{ name: "" }]);
 
   const createPoll = () => {
-    // TODO: I looked into using the OpenAPI generated types but I will follow up with that later so I can just get this PR out now
     const data = {
       pollName,
       maxNumRankedChoiceCount,

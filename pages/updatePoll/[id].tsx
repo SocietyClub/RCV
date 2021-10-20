@@ -15,7 +15,7 @@ const UpdatePollPage: NextPage = () => {
 
   const [pollName, setPollName] = useState("");
   const [maxNumRankedChoiceCount, setMaxNumRankedChoiceCount] = useState(3);
-  const [candidateList, setCandidateList] = useState([]);
+  const [candidateList, setCandidateList] = useState<Array<Candidate>>([]);
 
   useEffect(() => {
     // On the initial Page Load, this ID comes up as undefined
@@ -39,7 +39,6 @@ const UpdatePollPage: NextPage = () => {
   }, [id]);
 
   const updatePoll = () => {
-    // TODO: I looked into using the OpenAPI generated types but I will follow up with that later so I can just get this PR out now
     const data = {
       pollName,
       maxNumRankedChoiceCount,

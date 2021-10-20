@@ -9,15 +9,13 @@ type Props = {
   textFieldClassName: string;
   pollName: string;
   maxNumRankedChoiceCount: number;
-  candidateList: Array<Object>;
+  candidateList: Array<Candidate>;
   setPollName: (pollName: string) => void;
   setMaxNumRankedChoiceCount: (maxNumRankedChoiceCount: number) => void;
-  setCandidateList: (candidates: Array<Object>) => void;
+  setCandidateList: (candidates: Array<Candidate>) => void;
 } & typeof defaultProps;
 
-const defaultProps = {
-  candidateList: [],
-};
+const defaultProps = {};
 
 const PollInputForm = (props: Props) => {
   const maxNumberOfRankedChoices: Number = Math.max(
@@ -65,5 +63,7 @@ const PollInputForm = (props: Props) => {
     </>
   );
 };
+
+PollInputForm.defaultProps = defaultProps;
 
 export default PollInputForm;
