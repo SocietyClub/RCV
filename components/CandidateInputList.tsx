@@ -4,8 +4,8 @@ import styles from "./CandidateInputList.module.css";
 
 type Props = {
   textFieldClassName: string;
-  candidateList: Array<Object>;
-  setCandidateList: (candidates: Array<Object>) => void;
+  candidateList: Array<Candidate>;
+  setCandidateList: (candidates: Array<Candidate>) => void;
 } & typeof defaultProps;
 
 const defaultProps = {};
@@ -75,5 +75,7 @@ const CandidateInputList = (props: Props) => {
     </>
   );
 };
+
+CandidateInputList.defaultProps = defaultProps;
 
 export default CandidateInputList;

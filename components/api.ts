@@ -1,4 +1,4 @@
-export const CreatePollRequest = (data: Object) => {
+export const CreatePollRequest = (data: CreatePollRequest) => {
   return fetch("http://localhost:8080/ranked-choice-vote/v1/poll", {
     method: "POST",
     mode: "cors",
@@ -10,7 +10,7 @@ export const CreatePollRequest = (data: Object) => {
   }).then((data) => data.json());
 };
 
-export const UpdatePollRequest = (id: String, data: Object) => {
+export const UpdatePollRequest = (id: String, data: UdpatePollRequest) => {
   return fetch(`http://localhost:8080/ranked-choice-vote/v1/poll/${id}`, {
     method: "PATCH",
     mode: "cors",
@@ -22,7 +22,7 @@ export const UpdatePollRequest = (id: String, data: Object) => {
   }).then((data) => data.json());
 };
 
-export const GetPollRequest = (id: String) => {
+export const GetPollRequest: (id: string) => Promise<Poll> = (id) => {
   return fetch(`http://localhost:8080/ranked-choice-vote/v1/poll/${id}`, {
     method: "GET",
     mode: "cors",
@@ -38,5 +38,5 @@ export const GetPollRequest = (id: String) => {
       }
       return response;
     })
-    .then((data) => data.json())
+    .then((data) => data.json());
 };
