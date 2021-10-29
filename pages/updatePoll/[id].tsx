@@ -8,6 +8,7 @@ import Page from "../../components/Page";
 import styles from "./[id].module.css";
 import { GetPollRequest, UpdatePollRequest } from "../../components/api";
 import PollInputForm from "../../components/PollInputForm";
+import { useFetch } from "../../hooks/useFetch";
 
 const UpdatePollPage: NextPage = () => {
   const router = useRouter();
@@ -17,6 +18,9 @@ const UpdatePollPage: NextPage = () => {
   const [maxNumRankedChoiceCount, setMaxNumRankedChoiceCount] = useState(3);
   const [candidateList, setCandidateList] = useState<Array<Candidate>>([]);
 
+  const [pollData, getPollData] = useFetch(GetPollRequest);
+  const [updatedPollData, updatePollData] = useFetch(UpdatePollRequest);
+
   useEffect(() => {
     // On the initial Page Load, this ID comes up as undefined
     // but then gets populated with the actual ID from the URL
@@ -24,28 +28,25 @@ const UpdatePollPage: NextPage = () => {
       return;
     }
 
-    GetPollRequest(String(id))
-      .then((data) => {
-        console.log(data);
-
-        setPollName(data.pollName);
-        setMaxNumRankedChoiceCount(data.maxNumRankedChoiceCount);
-        setCandidateList(data.candidateList);
-      })
-      .catch((err) => {
-        // TODO: We should design/ figure out and error state if the poll does not exist
-        console.error("Error!", err);
-      });
+    getPollData(String(id));
   }, [id]);
 
+  useEffect(() => {
+    if (pollData.data) {
+      setPollName(pollData.data.pollName);
+      setMaxNumRankedChoiceCount(pollData.data.maxNumRankedChoiceCount);
+      setCandidateList(pollData.data.candidateList);
+    }
+  }, [pollData.data]);
+
   const updatePoll = () => {
-    const data = {
+    const data: UpdatePollRequest = {
       pollName,
       maxNumRankedChoiceCount,
       candidateList,
     };
 
-    UpdatePollRequest(String(id), data)
+    updatePollData(String(id), data)
       .then(() => {
         // TODO: Need to do some redirect here but the page doesn't exist yet
       })

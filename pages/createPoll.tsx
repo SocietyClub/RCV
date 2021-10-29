@@ -7,11 +7,13 @@ import Page from "../components/Page";
 import styles from "./createPoll.module.css";
 import { CreatePollRequest } from "../components/api";
 import PollInputForm from "../components/PollInputForm";
+import { useFetch } from "../hooks/useFetch";
 
 const CreatePollPage: NextPage = () => {
   const [pollName, setPollName] = useState("");
   const [maxNumRankedChoiceCount, setMaxNumRankedChoiceCount] = useState(3);
   const [candidateList, setCandidateList] = useState<Array<Candidate>>([{ name: "" }]);
+  const [createdPollData, createPollRequest] = useFetch(CreatePollRequest);
 
   const createPoll = () => {
     const data = {
@@ -20,7 +22,7 @@ const CreatePollPage: NextPage = () => {
       candidateList,
     };
 
-    CreatePollRequest(data)
+    createPollRequest(data)
       .then(() => {
         // TODO: Need to do some redirect here but the page doesn't exist yet
       })

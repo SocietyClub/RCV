@@ -2,14 +2,14 @@ type CreatePollRequest = {
   pollName: string;
   maxNumRankedChoiceCount: number;
   candidateList: Array<Candidate>;
-}
+};
 
 type UpdatePollRequest = {
   pollOpen?: boolean;
   pollName?: string;
   maxNumRankedChoiceCount?: number;
   candidateList?: Array<Candidate>;
-}
+};
 
 type Poll = {
   pollId: string;
@@ -20,8 +20,20 @@ type Poll = {
   pollDesc: string;
   maxNumRankedChoiceCount: number;
   candidateList: Array<Candidate>;
-}
+};
 
 type Candidate = {
   name: string;
-}
+};
+
+type fetchDataShape<T> = {
+  data: T | null;
+  isLoading: boolean;
+  messages: any[];
+  isSuccess: boolean;
+};
+
+type ResponseShape<T> = {
+  data: T | null;
+  messages: any[];
+};
