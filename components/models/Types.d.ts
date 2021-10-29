@@ -31,9 +31,15 @@ type fetchDataShape<T> = {
   isLoading: boolean;
   messages: any[];
   isSuccess: boolean;
+  isInitial: boolean;
 };
 
 type ResponseShape<T> = {
   data: T | null;
   messages: any[];
+};
+
+type AlertShape = {
+  severity: 'error' | 'success' | 'info' | 'warning';
+  message: string;
 };

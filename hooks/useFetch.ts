@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useUserID } from "./useUserID";
+import { useState } from 'react';
+import { useUserID } from './useUserID';
 
 type promiseType<T> = (...arg: any[]) => Promise<T>;
 type responseType = ResponseShape<dataType>;
@@ -10,17 +10,16 @@ const emptyFetchData: fetchDataShape<dataType> = {
   messages: [],
   isLoading: false,
   isSuccess: false,
+  isInitial: true,
 };
 
-export const useFetch: (
-  fetchFunction: promiseType<responseType>
-) => [fetchDataShape<dataType>, promiseType<void>] = (fetchFunction) => {
+export const useFetch: (fetchFunction: promiseType<responseType>) => [fetchDataShape<dataType>, promiseType<void>] = (fetchFunction) => {
   const [response, setResponse] = useState(emptyFetchData);
 
   const userID = useUserID();
 
   const fetchMethod = (...args: any[]) => {
-    setResponse(emptyFetchData);
+    setResponse({ ...emptyFetchData, isLoading: true, isInitial: false });
 
     return fetchFunction(String(userID), ...args)
       .then((res) => {
@@ -29,6 +28,7 @@ export const useFetch: (
           messages: res.messages,
           isLoading: false,
           isSuccess: true,
+          isInitial: false,
         });
       })
       .catch((res) => {
@@ -37,6 +37,7 @@ export const useFetch: (
           messages: res.messages,
           isLoading: false,
           isSuccess: false,
+          isInitial: false,
         });
       });
   };
