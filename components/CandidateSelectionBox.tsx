@@ -1,18 +1,37 @@
-import React from "react"
-import Box from '@mui/material/Box';
+import React from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import Box from "@mui/material/Box";
 
 type Props = {
-	candidateName: string
+    candidateName: string;
+};
+
+function CandidateSelectionBox({ candidateName }: Props) {
+    return (
+        <Box
+            style={{
+                width: "360px",
+                height: "56px",
+                marginBottom: "1rem",
+                padding: "0px 20px",
+
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+
+                fontSize: "24px",
+                lineHeight: "24px",
+                fontFamily: "Roboto",
+            }}
+            sx={{
+                boxShadow: 3,
+            }}
+        >
+            {candidateName}
+            <MenuIcon />
+        </Box>
+    );
 }
 
-function CandidateSelectionBox ({candidateName}: Props) {
-	return (
-		<Box  sx={{ boxShadow: 1 }}>
-			<div style={{ width:"22.5rem", height:"3.5rem"}} >
-				{candidateName}
-			</div>
-		</Box>
-	)
-}
-
-export default CandidateSelectionBox
+export default CandidateSelectionBox;
