@@ -1,6 +1,8 @@
 import React from "react";
+import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
+import sharedStyles from "./shared.module.css";
 
 type Props = {
   candidateName: string;
@@ -9,26 +11,18 @@ type Props = {
 function CandidateSelectionBox({ candidateName }: Props) {
   return (
     <Box
+      className={sharedStyles.candidateBoxSize + " " + sharedStyles.centered}
       style={{
-        width: "360px",
-        height: "56px",
-        marginBottom: "1rem",
-        padding: "0px 20px",
-
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-
-        fontSize: "24px",
-        lineHeight: "24px",
-        fontFamily: "Roboto",
       }}
       sx={{
         boxShadow: 3,
       }}
     >
-      {candidateName}
+      <Typography variant="h5">{candidateName}</Typography>
       <MenuIcon />
     </Box>
   );

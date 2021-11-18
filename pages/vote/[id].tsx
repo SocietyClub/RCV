@@ -29,8 +29,10 @@ function VotePage() {
         id;
       const pollResponse: any = await fetch(getPollUrl);
       const pollResponseJson: any = await pollResponse.json();
+      console.log("Poll Response JSON");
+      console.log(pollResponseJson);
       setPollCandidates(
-        pollResponseJson.candidateList.map((x: { name: string }) => x.name)
+        pollResponseJson.data.candidateList.map((x: { name: string }) => x.name)
       );
     };
 

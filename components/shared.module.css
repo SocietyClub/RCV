@@ -1,0 +1,13 @@
+.candidateBoxSize {
+  width: 360px;
+  height: 56px;
+  margin-bottom: 1rem;
+  padding: 0px 20px;
+}
+
+.centered {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
