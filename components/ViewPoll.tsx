@@ -1,6 +1,4 @@
 import Button from "@mui/material/Button";
-import { GetServerSideProps } from "next";
-import { resetServerContext } from "react-beautiful-dnd";
 
 import Typography from "@mui/material/Typography";
 import React from "react";
@@ -227,7 +225,11 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
               style={getListStyle(snapshot.isDraggingOver)}
             >
               {items.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
+                <Draggable
+                  key={"item" + item.id}
+                  draggableId={item.id}
+                  index={index}
+                >
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -254,7 +256,11 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
               style={getListStyle(snapshot.isDraggingOver)}
             >
               {selected.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
+                <Draggable
+                  key={"selected" + item.id}
+                  draggableId={"selected-" + item.id}
+                  index={index}
+                >
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -278,10 +284,5 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
-  return { props: { data: [] } };
-};
 
 export default ViewPoll;

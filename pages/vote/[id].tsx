@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import ViewPoll from "../../components/ViewPoll";
+import { GetServerSideProps } from "next";
+import { resetServerContext } from "react-beautiful-dnd";
 
 function VotePage() {
   const router = useRouter();
@@ -41,5 +43,11 @@ function VotePage() {
 
   return <ViewPoll pollQuestion={question} pollCandidates={pollCandidates} />;
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log("GET SERVER SIDE PROPS CALLED");
+  resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
+  return { props: { data: [] } };
+};
 
 export default VotePage;
