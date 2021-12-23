@@ -41,8 +41,8 @@ const Page = (props: Props) => {
         {props.sidebar}
       </div>
       <Snackbar open={snackbarOpen} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={alert?.severity || 'error'}>
-          {alert?.message || ''}
+        <Alert onClose={handleClose} severity={alert?.severity}>
+          {alert?.message}
         </Alert>
       </Snackbar>
     </div>
