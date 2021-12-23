@@ -89,3 +89,240 @@ export const GetPollRequest: (userID: string, id: string) => Promise<ResponseSha
     })
     .then((data) => data.json());
 };
+
+export const GetPollResultsRequest: (userID: string, id: string) => Promise<ResponseShape<Poll>> = (userID, id) => {
+  return fetch(`http://localhost:8080/ranked-choice-vote/v1/poll/${id}/results`, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-USER-ID': userID,
+    },
+  }).then((response) => {
+    console.log(response);
+
+    return {
+      messages: [],
+      data: {
+        pollId: 'test-do-not-deleto',
+        pollName: 'This is a test poll',
+        totalEntries: 13,
+        totalSteps: 3,
+        maxNumRankedChoiceCount: 2,
+        winner: 'spoodermann',
+        steps: [
+          {
+            stepId: 0,
+            candidateList: [
+              {
+                name: 'spoodermann',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'spoodermann',
+                    voteCount: 3,
+                  },
+                ],
+              },
+              {
+                name: 'batman',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'batman',
+                    voteCount: 4,
+                  },
+                ],
+              },
+              {
+                name: 'peach',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'peach',
+                    voteCount: 3,
+                  },
+                ],
+              },
+              {
+                name: 'mario',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'mario',
+                    voteCount: 2,
+                  },
+                ],
+              },
+              {
+                name: 'luigi',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'luigi',
+                    voteCount: 1,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            stepId: 1,
+            candidateList: [
+              {
+                name: 'spoodermann',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'spoodermann',
+                    voteCount: 3,
+                  },
+                  {
+                    firstChoiceCandidate: 'luigi',
+                    voteCount: 1,
+                  },
+                ],
+              },
+              {
+                name: 'batman',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'batman',
+                    voteCount: 4,
+                  },
+                ],
+              },
+              {
+                name: 'peach',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'peach',
+                    voteCount: 3,
+                  },
+                ],
+              },
+              {
+                name: 'mario',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'mario',
+                    voteCount: 2,
+                  },
+                ],
+              },
+              {
+                name: 'luigi',
+                eliminated: true,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'luigi',
+                    voteCount: 1,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            stepId: 2,
+            candidateList: [
+              {
+                name: 'spoodermann',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'spoodermann',
+                    voteCount: 3,
+                  },
+                  {
+                    firstChoiceCandidate: 'luigi',
+                    voteCount: 1,
+                  },
+                  {
+                    firstChoiceCandidate: 'mario',
+                    voteCount: 2,
+                  },
+                ],
+              },
+              {
+                name: 'batman',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'batman',
+                    voteCount: 4,
+                  },
+                ],
+              },
+              {
+                name: 'peach',
+                eliminated: false,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'peach',
+                    voteCount: 3,
+                  },
+                ],
+              },
+              {
+                name: 'mario',
+                eliminated: true,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'mario',
+                    voteCount: 2,
+                  },
+                ],
+              },
+              {
+                name: 'luigi',
+                eliminated: true,
+                votes: [
+                  {
+                    firstChoiceCandidate: 'luigi',
+                    voteCount: 1,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        yourEntry: {
+          choices: [
+            {
+              choicePosition: 0,
+              candidate: {
+                name: 'mario',
+              },
+            },
+            {
+              choicePosition: 1,
+              candidate: {
+                name: 'spoodermann',
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    if (!response.ok) {
+      return response.json().then(
+        (data) =>
+          Promise.reject({
+            data: null,
+            messages: [],
+          })
+        // TODO: It should probably be this but the backend is not returning errors nicely for 404s and etc.
+        // Promise.reject({
+        //   data: data.data,
+        //   messages: data.messages,
+        // })
+      );
+    }
+    return response;
+  });
+  // .then((data) => data.json());
+};

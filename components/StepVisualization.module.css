@@ -1,0 +1,51 @@
+.vote {
+  height: 60px;
+  padding: 5px 0;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.candidateName {
+  width: 200px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 5px 20px;
+  border-radius: 5px;
+}
+
+.candidate0 {
+  background-color: skyblue;
+}
+.candidate1 {
+  background-color: orange;
+}
+.candidate2 {
+  background-color: limegreen;
+}
+.candidate3 {
+  background-color: red;
+}
+.candidate4 {
+  background-color: mediumpurple;
+}
+.candidate5 {
+  background-color: grey;
+}
+.candidate6 {
+  background-color: pink;
+}
+.candidate7 {
+  background-color: yellow;
+}
+.candidate8 {
+  background-color: mediumorchid;
+}
+
+.yourVote {
+  border: 3px solid black;
+}

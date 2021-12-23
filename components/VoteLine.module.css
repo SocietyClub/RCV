@@ -1,0 +1,7 @@
+.voteLine {
+  height: 50px;
+  width: 10px;
+  margin: 0 2px;
+  display: inline-block;
+  border-radius: 5px;
+}
