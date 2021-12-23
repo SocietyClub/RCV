@@ -1,10 +1,10 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Header from '../components/Header'
-import { createTheme, ThemeProvider } from '@mui/material';
-import { deepPurple, green } from '@mui/material/colors';
-import React from 'react';
-
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import Header from "../components/Header";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { deepPurple, green } from "@mui/material/colors";
+import React from "react";
+import { CookiesProvider } from "react-cookie";
 
 const theme = createTheme({
   palette: {
@@ -13,15 +13,18 @@ const theme = createTheme({
     },
     secondary: {
       main: green[500],
-    }
-  }
+    },
+  },
 });
 
-
 function MyApp({ Component, pageProps }: AppProps) {
-  return <ThemeProvider theme={theme}>
-    <Header />
-    <Component {...pageProps} />
-  </ThemeProvider>
+  return (
+    <ThemeProvider theme={theme}>
+      <CookiesProvider>
+        <Header />
+        <Component {...pageProps} />
+      </CookiesProvider>
+    </ThemeProvider>
+  );
 }
-export default MyApp
+export default MyApp;
