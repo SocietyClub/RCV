@@ -9,7 +9,6 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest) => {
     body: JSON.stringify(data),
   })
     .then((response) => {
-      console.log(response);
       if (!response.ok) {
         return response.json().then(
           (data) =>
@@ -40,7 +39,6 @@ export const UpdatePollRequest: (userID: string, id: String, data: UpdatePollReq
     body: JSON.stringify(data),
   })
     .then((response) => {
-      console.log(response);
       if (!response.ok) {
         return response.json().then(
           (data) =>
@@ -70,7 +68,6 @@ export const GetPollRequest: (userID: string, id: string) => Promise<ResponseSha
     },
   })
     .then((response) => {
-      console.log(response);
       if (!response.ok) {
         return response.json().then(
           (data) =>
