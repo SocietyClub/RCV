@@ -7,7 +7,7 @@ import styles from './Page.module.css';
 type Props = {
   children: React.ReactNode;
   sidebar?: React.ReactNode;
-  alert?: AlertShape;
+  alert?: AlertShape | null;
 } & typeof defaultProps;
 
 const defaultProps = {

@@ -26,7 +26,7 @@ const CandidateInputList = (props: Props) => {
     const lastCandidateTextInput = document.querySelectorAll(
       "." + props.textFieldClassName + ":last-of-type input"
     )[0];
-    if (lastCandidateTextInput) {
+    if (lastCandidateTextInput && lastCandidateTextInput.focus) {
       lastCandidateTextInput.focus();
     }
   }, [props.textFieldClassName]);

@@ -26,6 +26,42 @@ type Candidate = {
   name: string;
 };
 
+type PollResults = {
+  pollId: string;
+  pollName: string;
+  totalEntries: number;
+  totalSteps: number;
+  maxNumRankedChoiceCount: number;
+  winner: string;
+  steps: Array<ResultStep>;
+  yourEntry: ResultYourEntry;
+};
+
+type ResultStep = {
+  stepId: number;
+  candidateList: Array<ResultCandidate>;
+};
+
+type ResultCandidate = {
+  name: string;
+  eliminated: boolean;
+  votes: Array<ResultVote>;
+};
+
+type ResultVote = {
+  firstChoiceCandidate: string;
+  voteCount: number;
+};
+
+type ResultYourEntry = {
+  choices: Array<ResultYourEntryChoice>;
+};
+
+type ResultYourEntryChoice = {
+  choicePosition: number;
+  candidate: Candidate;
+};
+
 type fetchDataShape<T> = {
   data: T | null;
   isLoading: boolean;
