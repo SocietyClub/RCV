@@ -41,7 +41,10 @@ function VotePage() {
     populatePollCandidates();
   }, [router.isReady]);
 
-  return <ViewPoll pollQuestion={question} pollCandidates={pollCandidates} />;
+  const result = pollCandidates && (
+    <ViewPoll pollQuestion={question} pollCandidates={pollCandidates} />
+  );
+  return result;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

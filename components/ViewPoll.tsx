@@ -2,14 +2,11 @@ import Button from "@mui/material/Button";
 
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, DraggableLocation, Droppable, DroppableId, DropResult } from "react-beautiful-dnd";
 import CandidateSelectionBox from "./CandidateSelectionBox";
 import CandidateChoiceBox from "./CandidateChoiceBox";
 import { useState } from "react";
-
-// import React, { Component } from "react";
-// import ReactDOM from "react-dom";
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useEffect } from "react";
 
 type Props = {
   pollQuestion: string;
@@ -17,15 +14,11 @@ type Props = {
 };
 
 function ViewPoll({ pollQuestion, pollCandidates }: Props) {
-  // fake data generator
-  const getItems = (count, offset = 0) =>
-    Array.from({ length: count }, (v, k) => k).map((k) => ({
-      id: `item-${k + offset}`,
-      content: `item ${k + offset}`,
-    }));
+  const getEmptyCandidateSlots = (totalCount: number, selectedCandidateLength: number): string[] => {
+    return Array.from(Array(totalCount-selectedCandidateLength).keys()).map(index => ('candidate ' + (selectedCandidateLength + index + 1)));
+  }
 
-  // a little function to help us with reordering the result
-  const reorder = (list, startIndex, endIndex) => {
+  const reorder = (list: string[], startIndex: number, endIndex: number): string[] => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -37,64 +30,53 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
    *
    * Moves an item from one list to another list.
    */
-  const move = (source, destination, droppableSource, droppableDestination) => {
+  type MoveResultKey = "candidatesDropId" | "chosenCandidatesDropId"
+  type MoveResult = {
+    // TODO: Fix type errors when this is marked as not optional
+    [key in MoveResultKey]?: string[]
+  }
+
+  function move(
+     source: string[],
+     destination: string[],
+     sourceString: MoveResultKey,
+     destString: MoveResultKey,
+     droppableSource: DraggableLocation,
+     droppableDestination: DraggableLocation
+  ): MoveResult {
+    // assumes sourceString and destString are different
+
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
 
     destClone.splice(droppableDestination.index, 0, removed);
 
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
+    const result : MoveResult = {
+        [sourceString]: sourceClone,
+        [destString]: destClone,
+    }
 
     return result;
   };
 
-  const grid = 8;
+  const [candidates, setCandidates] = useState<string[]>([]);
+  const [chosenCandidates, setChosenCandidates] = useState<string[]>([]);
 
-  const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: "none",
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
+  useEffect(() => {
+    setCandidates(pollCandidates);
+  }, [pollCandidates]);
 
-    // change background colour if dragging
-    background: isDragging ? "lightgreen" : "grey",
 
-    // styles we need to apply on draggables
-    ...draggableStyle,
-  });
-
-  const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
-    padding: grid,
-    width: 250,
-  });
-
-  const [items, setItems] = useState(getItems(10));
-  const [selected, setSelected] = useState(getItems(5));
-
-  /**
-   * A semi-generic way to handle multiple lists. Matches
-   * the IDs of the droppable container to the names of the
-   * source arrays stored in the state.
-   */
-  // const id2List = {
-  //   droppable: "items",
-  //   droppable2: "selected",
-  // };
-
-  const getList = (id) => {
-    if (id === "droppable") {
-      return items;
-    }
-    if (id === "droppable2") {
-      return selected;
+  const getList = (id: string) => {
+    if (id === "candidatesDropId") {
+      return candidates;
+    } else { //if (id === "chosenCandidatesDropId") {
+      return chosenCandidates;
     }
   };
 
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
     // dropped outside the list
@@ -109,24 +91,29 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
         destination.index
       );
 
-      if (source.droppableID === "droppable") {
-        setItems(reOrderedItems);
+      if (source.droppableId === "candidatesDropId") {
+        setCandidates(reOrderedItems);
       }
-      if (source.droppableId === "droppable2") {
-        setSelected(reOrderedItems);
+      if (source.droppableId === "chosenCandidatesDropId") {
+        setChosenCandidates(reOrderedItems);
       }
     } else {
       const result = move(
         getList(source.droppableId),
         getList(destination.droppableId),
+        source.droppableId,
+        destination.droppableId,
         source,
         destination
       );
+      console.log("RESULT")
+      console.log(result)
 
-      setItems(result.droppable);
-      setSelected(result.droppable);
+      setCandidates(result.candidatesDropId);
+      setChosenCandidates(result.chosenCandidatesDropId);
     }
   };
+
 
   return (
     <div
@@ -166,120 +153,76 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
         </div>
       </div>
 
-      {/* <DragDropContext>
+      <DragDropContext onDragEnd={onDragEnd}>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "center",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Droppable droppableId="droppableOne">
-              {(provided: any, snapshot: any) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {pollCandidates.map((candidate) => (
-                    <div key={candidate}>
-                      <Draggable draggableId={candidate}>
-                        {(provided: any, snapshot: any) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <CandidateSelectionBox candidateName={candidate} />
-                          </div>
-                        )}
-                      </Draggable>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </Droppable>
-          </div>
-          <div>
-            <Droppable droppableId="droppableTwo">
-              {(provided: any, snapshot: any) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  <CandidateChoiceBox>First Choice</CandidateChoiceBox>
-                  <CandidateChoiceBox>Second Choice</CandidateChoiceBox>
-                  <CandidateChoiceBox>Third Choice</CandidateChoiceBox>
-                </div>
-              )}
-            </Droppable>
-          </div>
-        </div>
-      </DragDropContext> */}
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {items.map((item, index) => (
-                <Draggable
-                  key={"item" + item.id}
-                  draggableId={item.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.content}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="droppable2">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {selected.map((item, index) => (
-                <Draggable
-                  key={"selected" + item.id}
-                  draggableId={"selected-" + item.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.content}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+          <Droppable droppableId="candidatesDropId">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {candidates.map((item, index) => (
+                  <Draggable
+                    key={item}
+                    draggableId={item}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <CandidateSelectionBox candidateName={item} />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+          <div style={{ width: "2rem" }}></div>
+          <Droppable droppableId="chosenCandidatesDropId">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+              >
+                {chosenCandidates.map((item, index) => (
+                  <Draggable
+                    key={item}
+                    draggableId={item}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <CandidateSelectionBox candidateName={item} />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {/*TODO: Don't account for selected, and have the divs appear below the candidates*/} 
+                {getEmptyCandidateSlots(3, chosenCandidates.length).map((candidateName: string) => (
+                  <CandidateChoiceBox key={candidateName}>
+                    {candidateName}
+                  </CandidateChoiceBox>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
       </DragDropContext>
     </div>
   );
