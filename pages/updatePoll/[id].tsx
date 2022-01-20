@@ -23,9 +23,7 @@ const UpdatePollPage: NextPage = () => {
   const [alert, setAlert] = useState<AlertShape>(null);
 
   useEffect(() => {
-    // On the initial Page Load, this ID comes up as undefined
-    // but then gets populated with the actual ID from the URL
-    if (!id) {
+    if (!router.isReady) {
       return;
     }
 

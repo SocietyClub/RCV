@@ -22,9 +22,7 @@ const PollResultsPage: NextPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   useEffect(() => {
-    // On the initial Page Load, this ID comes up as undefined
-    // but then gets populated with the actual ID from the URL
-    if (!id) {
+    if (!router.isReady) {
       return;
     }
 

@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './StepVisualization.module.css';
 import VoteLine from './VoteLine';
 
@@ -10,25 +10,20 @@ type Props = {
 
 const defaultProps = {};
 
-const getYourEntryVoteForCurrentStep: (yourEntry: ResultYourEntry, step: ResultStep) => string = (yourEntry, step) => {
-  let name = '';
-  yourEntry.choices.some((choice) => {
-    return step.candidateList.some((candidate) => {
+const getYourEntryVoteForCurrentStep = (yourEntry: ResultYourEntry, step: ResultStep) => {
+  for (const choice of yourEntry.choices) {
+    for (const candidate of step.candidateList) {
       if (!candidate.eliminated && choice.candidate.name === candidate.name) {
-        name = candidate.name;
-        return true;
+        return candidate.name;
       }
-    });
-  });
-
-  return name;
+    }
+  }
 };
 
 const StepVisualization = (props: Props) => {
   const candidateMap = new Map<string, number>();
   props.step.candidateList.forEach((candidate, index) => candidateMap.set(candidate.name, index));
 
-  // Should memoize this
   const yourVoteCurrentStep = getYourEntryVoteForCurrentStep(props.yourEntry, props.step);
   const yourVoteFirstChoice = props.yourEntry.choices[0].candidate.name;
 
