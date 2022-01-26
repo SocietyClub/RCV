@@ -6,18 +6,23 @@ import sharedStyles from "./shared.module.css";
 
 type Props = {
   candidateName: string;
+  width?: string;
 };
 
-function CandidateSelectionBox({ candidateName }: Props) {
+function CandidateSelectionBox({ candidateName, width }: Props) {
+  const styleVals: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    background: "white",
+    zIndex: 1,
+    width: width
+  };
   return (
     <Box
       className={sharedStyles.candidateBoxSize + " " + sharedStyles.centered}
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
+      style={styleVals}
       sx={{
         boxShadow: 3,
       }}

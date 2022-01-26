@@ -7,14 +7,6 @@ import { resetServerContext } from "react-beautiful-dnd";
 function VotePage() {
   const router = useRouter();
   const question = "What Movie Should We Watch?";
-  type Hello = {
-    foo: string;
-    bar: string;
-  };
-  const aVar: Hello = {
-    foo: "foo",
-    bar: "bar",
-  };
 
   const [pollCandidates, setPollCandidates] = useState([]);
 
@@ -36,6 +28,9 @@ function VotePage() {
       setPollCandidates(
         pollResponseJson.data.candidateList.map((x: { name: string }) => x.name)
       );
+      //maxNumRankedChoiceCount
+      //pollDesc
+      //pollName
     };
 
     populatePollCandidates();
