@@ -6,7 +6,7 @@ import { GetServerSideProps } from "next";
 import { resetServerContext } from "react-beautiful-dnd";
 
 import Page from "../../components/Page";
-import ViewPoll from "../../components/ViewPoll";
+import VotePoll from "../../components/ViewPoll";
 import { PollData } from "../../components/ViewPoll";
 
 function VotePage() {
@@ -57,7 +57,7 @@ function VotePage() {
     </div>
   );
 
-  const result = pollData ? <ViewPoll pollData={pollData} /> : "Loading";
+  const result = pollData ? <VotePoll pollData={pollData} /> : "Loading";
   return <Page sidebar={Sidebar}>{result}</Page>;
 }
 

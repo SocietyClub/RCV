@@ -28,7 +28,7 @@ type Props = {
   pollData: PollData;
 };
 
-function ViewPoll({ pollData }: Props) {
+function VotePoll({ pollData }: Props) {
   const [alertMessage, setAlertMessage] = useState<string>();
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const [candidates, setCandidates] = useState<string[]>([]);
@@ -257,4 +257,4 @@ function ViewPoll({ pollData }: Props) {
   );
 }
 
-export default ViewPoll;
+export default VotePoll;
