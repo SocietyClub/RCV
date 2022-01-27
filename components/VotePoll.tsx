@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -26,11 +26,10 @@ export type PollData = {
 
 type Props = {
   pollData: PollData;
+  setPageAlert: Dispatch<SetStateAction<AlertShape | null>>;
 };
 
-function VotePoll({ pollData }: Props) {
-  const [alertMessage, setAlertMessage] = useState<string>();
-  const [alertOpen, setAlertOpen] = useState<boolean>(false);
+function VotePoll({ pollData, setPageAlert }: Props) {
   const [candidates, setCandidates] = useState<string[]>([]);
   const [chosenCandidates, setChosenCandidates] = useState<string[]>([]);
 
@@ -102,11 +101,10 @@ function VotePoll({ pollData }: Props) {
       destId == "chosenCandidatesDropId" &&
       destList.length >= pollData.maxNumRankedChoiceCount;
     if (userChoosesMoreThanAllowedNumberOfCandidates) {
-      console.log("Should Alert");
-      setAlertMessage(
-        `You can only choose a max of ${pollData.maxNumRankedChoiceCount} candidates!`
-      );
-      setAlertOpen(true);
+      setPageAlert({
+        severity: "warning",
+        message: `You can only choose a max of ${pollData.maxNumRankedChoiceCount} candidates!`,
+      });
     }
     const isValid = !userChoosesMoreThanAllowedNumberOfCandidates;
     return isValid;
@@ -244,15 +242,6 @@ function VotePoll({ pollData }: Props) {
           </Droppable>
         </div>
       </DragDropContext>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={() => setAlertOpen(false)}
-      >
-        <Alert variant="filled" severity="warning">
-          {alertMessage}
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

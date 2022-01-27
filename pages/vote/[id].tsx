@@ -6,8 +6,8 @@ import { GetServerSideProps } from "next";
 import { resetServerContext } from "react-beautiful-dnd";
 
 import Page from "../../components/Page";
-import VotePoll from "../../components/ViewPoll";
-import { PollData } from "../../components/ViewPoll";
+import VotePoll from "../../components/VotePoll";
+import { PollData } from "../../components/VotePoll";
 
 function VotePage() {
   const router = useRouter();
@@ -57,8 +57,18 @@ function VotePage() {
     </div>
   );
 
-  const result = pollData ? <VotePoll pollData={pollData} /> : "Loading";
-  return <Page sidebar={Sidebar}>{result}</Page>;
+  const [pageAlert, setPageAlert] = useState<AlertShape | null>(null);
+
+  const result = pollData ? (
+    <VotePoll pollData={pollData} setPageAlert={setPageAlert} />
+  ) : (
+    "Loading"
+  );
+  return (
+    <Page alert={pageAlert} sidebar={Sidebar} autoHideAlertMilliSeconds={4000}>
+      {result}
+    </Page>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
