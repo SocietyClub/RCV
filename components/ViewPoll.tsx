@@ -1,5 +1,3 @@
-import Button from "@mui/material/Button";
-
 import Typography from "@mui/material/Typography";
 import React from "react";
 import {
@@ -151,19 +149,13 @@ function ViewPoll({ pollData }: Props) {
             textAlign: "center",
           }}
         >
-          <Typography variant="h3">{pollData.pollName}</Typography>
-          <div style={{ height: "4rem" }} />
+          <Typography variant="h2">{pollData.pollName}</Typography>
+          <Typography variant="subtitle2">{pollData.pollDesc}</Typography>
+          <div style={{ height: "2rem" }} />
           <Typography variant="h5">
             Drag your selections to the ranked spots on the right.
           </Typography>
           <div style={{ height: "4rem" }} />
-        </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <Button variant="contained" color="primary">
-            Share
-          </Button>
-          <Button variant="contained">Edit Poll</Button>
-          <Button variant="contained">Close Poll</Button>
         </div>
       </div>
 

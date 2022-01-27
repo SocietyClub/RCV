@@ -1,10 +1,13 @@
-import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import ViewPoll from "../../components/ViewPoll";
-import { PollData } from "../../components/ViewPoll";
+import { useRouter } from "next/router";
 
+import Button from "@mui/material/Button";
 import { GetServerSideProps } from "next";
 import { resetServerContext } from "react-beautiful-dnd";
+
+import Page from "../../components/Page";
+import ViewPoll from "../../components/ViewPoll";
+import { PollData } from "../../components/ViewPoll";
 
 function VotePage() {
   const router = useRouter();
@@ -30,8 +33,32 @@ function VotePage() {
     populatePollCandidates();
   }, [router.isReady]);
 
+  const SidebarButton = (props: any) => (
+    <Button {...props} style={{ marginBottom: "0.5rem" }}>
+      {props.children}
+    </Button>
+  );
+
+  const Sidebar = (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minWidth: "8rem",
+        minHeight: "2rem",
+        paddingTop: "5rem",
+      }}
+    >
+      <SidebarButton variant="contained" color="primary">
+        Share
+      </SidebarButton>
+      <SidebarButton variant="outlined">Edit Poll</SidebarButton>
+      <SidebarButton variant="outlined">Close Poll</SidebarButton>
+    </div>
+  );
+
   const result = pollData ? <ViewPoll pollData={pollData} /> : "Loading";
-  return result;
+  return <Page sidebar={Sidebar}>{result}</Page>;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
