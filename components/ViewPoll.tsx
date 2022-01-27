@@ -5,61 +5,44 @@ import React from "react";
 import {
   DragDropContext,
   Draggable,
-  DraggableLocation,
   Droppable,
-  DroppableId,
   DropResult,
 } from "react-beautiful-dnd";
 import CandidateSelectionBox from "./CandidateSelectionBox";
 import CandidateChoiceBox from "./CandidateChoiceBox";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Alert, Snackbar } from "@mui/material";
 
-// droppableid to set state, state etc.
-
-type Props = {
-  pollQuestion: string;
-  pollCandidates: string[];
+export type PollData = {
+  candidateList: { name: string }[];
+  maxNumRankedChoiceCount: number;
+  pollDesc: string;
+  pollId: string;
+  pollName: string;
+  pollOpen: boolean;
+  startDate: string;
+  endDate: string;
+  userIsCreator: boolean;
 };
 
-function ViewPoll({ pollQuestion, pollCandidates }: Props) {
-  const getEmptyCandidateSlots = (
-    totalCount: number,
-    selectedCandidateLength: number
-  ): string[] => {
-    return Array.from(Array(totalCount - selectedCandidateLength).keys()).map(
-      (index) => "candidate " + (selectedCandidateLength + index + 1)
-    );
-  };
+type Props = {
+  pollData: PollData;
+};
 
-  type DropId = "candidatesDropId" | "chosenCandidatesDropId";
-
-  const reorder = (
-    list: string[],
-    startIndex: number,
-    endIndex: number
-  ): string[] => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
-
-  function move(
-    source: string[],
-    destination: string[],
-    sourceIndex: number,
-    destIndex: number
-  ): string[][] {
-    const sourceClone = [...source];
-    const destClone = [...destination];
-    const [removed] = sourceClone.splice(sourceIndex, 1);
-    destClone.splice(destIndex, 0, removed);
-    return [sourceClone, destClone];
-  }
-
+function ViewPoll({ pollData }: Props) {
+  const [alertMessage, setAlertMessage] = useState<string>();
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const [candidates, setCandidates] = useState<string[]>([]);
   const [chosenCandidates, setChosenCandidates] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (pollData.candidateList) {
+      setCandidates(pollData.candidateList.map((candidate) => candidate.name));
+    }
+  }, [pollData.candidateList]);
+
+  type DropId = "candidatesDropId" | "chosenCandidatesDropId";
 
   const dropIdMap = {
     candidatesDropId: {
@@ -71,10 +54,6 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
       setList: setChosenCandidates,
     },
   };
-
-  useEffect(() => {
-    setCandidates(pollCandidates);
-  }, [pollCandidates]);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -91,6 +70,11 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
 
       dropIdMap[sourceId].setList(reOrderedItems);
     } else {
+      // Item is being moved from one list to another
+      if (!isValidMove(destId)) {
+        // Create a Toast
+        return;
+      }
       const [newSourceList, newDestList] = move(
         dropIdMap[sourceId].list,
         dropIdMap[destId].list,
@@ -101,6 +85,46 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
       dropIdMap[sourceId].setList(newSourceList);
       dropIdMap[destId].setList(newDestList);
     }
+  };
+
+  const reorder = (
+    list: string[],
+    startIndex: number,
+    endIndex: number
+  ): string[] => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  const isValidMove = (destId: DropId): boolean => {
+    const destList = dropIdMap[destId].list;
+    const userChoosesMoreThanAllowedNumberOfCandidates =
+      destId == "chosenCandidatesDropId" &&
+      destList.length >= pollData.maxNumRankedChoiceCount;
+    if (userChoosesMoreThanAllowedNumberOfCandidates) {
+      console.log("Should Alert");
+      setAlertMessage(
+        `You can only choose a max of ${pollData.maxNumRankedChoiceCount} candidates!`
+      );
+      setAlertOpen(true);
+    }
+    const isValid = !userChoosesMoreThanAllowedNumberOfCandidates;
+    return isValid;
+  };
+
+  const move = (
+    source: string[],
+    destination: string[],
+    sourceIndex: number,
+    destIndex: number
+  ): string[][] => {
+    const sourceClone = [...source];
+    const destClone = [...destination];
+    const [removed] = sourceClone.splice(sourceIndex, 1);
+    destClone.splice(destIndex, 0, removed);
+    return [sourceClone, destClone];
   };
 
   const boxWidth = "22.5rem";
@@ -127,7 +151,7 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
             textAlign: "center",
           }}
         >
-          <Typography variant="h3">{pollQuestion}</Typography>
+          <Typography variant="h3">{pollData.pollName}</Typography>
           <div style={{ height: "4rem" }} />
           <Typography variant="h5">
             Drag your selections to the ranked spots on the right.
@@ -156,7 +180,7 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
               <div
                 {...provided.droppableProps}
                 style={{
-                  minWidth: boxWidth, // Width of the Boxes
+                  minWidth: boxWidth,
                 }}
                 ref={provided.innerRef}
               >
@@ -197,13 +221,9 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
                       zIndex: -1,
                     }}
                   >
-                    {/*
-                        {getEmptyCandidateSlots(
-                            3,
-                            chosenCandidates.length
-                        ).map((candidateName: string) => (
-                    */}
-                    {Array.from(Array(3).keys()).map((num) => (
+                    {Array.from(
+                      Array(pollData.maxNumRankedChoiceCount).keys()
+                    ).map((num) => (
                       <CandidateChoiceBox key={num} width={boxWidth}>
                         Candidate {num + 1}
                       </CandidateChoiceBox>
@@ -225,7 +245,6 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
                       )}
                     </Draggable>
                   ))}
-
                   {provided.placeholder}
                 </div>
               </>
@@ -233,6 +252,15 @@ function ViewPoll({ pollQuestion, pollCandidates }: Props) {
           </Droppable>
         </div>
       </DragDropContext>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert variant="filled" severity="warning">
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

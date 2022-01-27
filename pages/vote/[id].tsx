@@ -1,14 +1,15 @@
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import ViewPoll from "../../components/ViewPoll";
+import { PollData } from "../../components/ViewPoll";
+
 import { GetServerSideProps } from "next";
 import { resetServerContext } from "react-beautiful-dnd";
 
 function VotePage() {
   const router = useRouter();
-  const question = "What Movie Should We Watch?";
 
-  const [pollCandidates, setPollCandidates] = useState([]);
+  const [pollData, setPollData] = useState<PollData>();
 
   useEffect(() => {
     if (!router.isReady) {
@@ -23,27 +24,18 @@ function VotePage() {
         id;
       const pollResponse: any = await fetch(getPollUrl);
       const pollResponseJson: any = await pollResponse.json();
-      console.log("Poll Response JSON");
-      console.log(pollResponseJson);
-      setPollCandidates(
-        pollResponseJson.data.candidateList.map((x: { name: string }) => x.name)
-      );
-      //maxNumRankedChoiceCount
-      //pollDesc
-      //pollName
+      setPollData(pollResponseJson.data);
     };
 
     populatePollCandidates();
   }, [router.isReady]);
 
-  const result = pollCandidates && (
-    <ViewPoll pollQuestion={question} pollCandidates={pollCandidates} />
-  );
+  const result = pollData ? <ViewPoll pollData={pollData} /> : "Loading";
   return result;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log("GET SERVER SIDE PROPS CALLED");
+export const getServerSideProps: GetServerSideProps = async () => {
+  // Required for react-beautiful-dnd to work
   resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
   return { props: { data: [] } };
 };
