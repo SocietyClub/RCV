@@ -1,5 +1,9 @@
-import Typography from "@mui/material/Typography";
 import React, { Dispatch, SetStateAction } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { Alert, Snackbar } from "@mui/material";
 import {
   DragDropContext,
   Draggable,
@@ -8,28 +12,16 @@ import {
 } from "react-beautiful-dnd";
 import CandidateSelectionBox from "./CandidateSelectionBox";
 import CandidateChoiceBox from "./CandidateChoiceBox";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Alert, Snackbar } from "@mui/material";
-
-export type PollData = {
-  candidateList: { name: string }[];
-  maxNumRankedChoiceCount: number;
-  pollDesc: string;
-  pollId: string;
-  pollName: string;
-  pollOpen: boolean;
-  startDate: string;
-  endDate: string;
-  userIsCreator: boolean;
-};
+import { CreateVote } from "./api";
+import { useFetch } from "../hooks/useFetch";
 
 type Props = {
-  pollData: PollData;
+  pollData: Poll;
   setPageAlert: Dispatch<SetStateAction<AlertShape | null>>;
 };
 
 function VotePoll({ pollData, setPageAlert }: Props) {
+  const [_, createVote] = useFetch(CreateVote);
   const [candidates, setCandidates] = useState<string[]>([]);
   const [chosenCandidates, setChosenCandidates] = useState<string[]>([]);
 
@@ -124,6 +116,19 @@ function VotePoll({ pollData, setPageAlert }: Props) {
   };
 
   const boxWidth = "22.5rem";
+
+  const handleSubmitVote = () => {
+    const createVoteRequest: CreateVoteRequest = {
+      choices: chosenCandidates.map((candidateName, index) => ({
+        choicePosition: index + 1, // positions are 1-indexed so add 1
+        candidate: {
+          name: candidateName,
+        },
+      })),
+    };
+
+    createVote(pollData.pollId, createVoteRequest);
+  };
 
   return (
     <div
@@ -242,6 +247,9 @@ function VotePoll({ pollData, setPageAlert }: Props) {
           </Droppable>
         </div>
       </DragDropContext>
+      <Button variant="contained" color="primary" onClick={handleSubmitVote}>
+        Submit Your Vote!
+      </Button>
     </div>
   );
 }

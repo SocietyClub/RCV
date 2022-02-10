@@ -7,30 +7,21 @@ import { resetServerContext } from "react-beautiful-dnd";
 
 import Page from "../../components/Page";
 import VotePoll from "../../components/VotePoll";
-import { PollData } from "../../components/VotePoll";
+import { GetPollRequest } from '../../components/api';
+import { useFetch } from '../../hooks/useFetch';
 
 function VotePage() {
   const router = useRouter();
 
-  const [pollData, setPollData] = useState<PollData>();
+  const [pollData, getPollData] = useFetch(GetPollRequest);
 
   useEffect(() => {
     if (!router.isReady) {
       return;
     }
 
-    const populatePollCandidates = async () => {
-      const { id } = router.query;
-      // TODO: Replace with Cory's function to also pass in the user UUID
-      const getPollUrl =
-        "https://societyclub-rcv-backend.uc.r.appspot.com/ranked-choice-vote/v1/poll/" +
-        id;
-      const pollResponse: any = await fetch(getPollUrl);
-      const pollResponseJson: any = await pollResponse.json();
-      setPollData(pollResponseJson.data);
-    };
-
-    populatePollCandidates();
+    const { id } = router.query;
+    getPollData(String(id));
   }, [router.isReady]);
 
   const SidebarButton = (props: any) => (
@@ -59,8 +50,8 @@ function VotePage() {
 
   const [pageAlert, setPageAlert] = useState<AlertShape | null>(null);
 
-  const result = pollData ? (
-    <VotePoll pollData={pollData} setPageAlert={setPageAlert} />
+  const result = pollData.data ? (
+    <VotePoll pollData={pollData.data} setPageAlert={setPageAlert} />
   ) : (
     "Loading"
   );

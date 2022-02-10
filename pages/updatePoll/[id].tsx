@@ -28,7 +28,7 @@ const UpdatePollPage: NextPage = () => {
     }
 
     getPollData(String(id));
-  }, [id]);
+  }, [router.isReady, id]);
 
   useEffect(() => {
     if (pollData.data) {

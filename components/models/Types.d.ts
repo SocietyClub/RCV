@@ -20,6 +20,7 @@ type Poll = {
   pollDesc: string;
   maxNumRankedChoiceCount: number;
   candidateList: Array<Candidate>;
+  userIsCreator: boolean;
 };
 
 type Candidate = {
@@ -54,13 +55,17 @@ type ResultVote = {
 };
 
 type ResultYourEntry = {
-  choices: Array<ResultYourEntryChoice>;
+  choices: Array<VoteBallot>;
 };
 
-type ResultYourEntryChoice = {
+type VoteBallot = {
   choicePosition: number;
   candidate: Candidate;
 };
+
+type CreateVoteRequest = {
+  choices: VoteBallot[]
+}
 
 type fetchDataShape<T> = {
   data: T | null;
