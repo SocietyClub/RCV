@@ -61,7 +61,6 @@ function VotePoll({ pollData, setPageAlert }: Props) {
     } else {
       // Item is being moved from one list to another
       if (!isValidMove(destId)) {
-        // Create a Toast
         return;
       }
       const [newSourceList, newDestList] = move(

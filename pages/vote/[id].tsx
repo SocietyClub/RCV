@@ -7,8 +7,32 @@ import { resetServerContext } from "react-beautiful-dnd";
 
 import Page from "../../components/Page";
 import VotePoll from "../../components/VotePoll";
-import { GetPollRequest } from '../../components/api';
-import { useFetch } from '../../hooks/useFetch';
+import { GetPollRequest } from "../../components/api";
+import { useFetch } from "../../hooks/useFetch";
+
+const SidebarButton = (props: any) => (
+  <Button {...props} style={{ marginBottom: "0.5rem" }}>
+    {props.children}
+  </Button>
+);
+
+const VotePageSidebar = (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      minWidth: "8rem",
+      minHeight: "2rem",
+      paddingTop: "5rem",
+    }}
+  >
+    <SidebarButton variant="contained" color="primary">
+      Share
+    </SidebarButton>
+    <SidebarButton variant="outlined">Edit Poll</SidebarButton>
+    <SidebarButton variant="outlined">Close Poll</SidebarButton>
+  </div>
+);
 
 function VotePage() {
   const router = useRouter();
@@ -24,40 +48,19 @@ function VotePage() {
     getPollData(String(id));
   }, [router.isReady]);
 
-  const SidebarButton = (props: any) => (
-    <Button {...props} style={{ marginBottom: "0.5rem" }}>
-      {props.children}
-    </Button>
-  );
-
-  const Sidebar = (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minWidth: "8rem",
-        minHeight: "2rem",
-        paddingTop: "5rem",
-      }}
-    >
-      <SidebarButton variant="contained" color="primary">
-        Share
-      </SidebarButton>
-      <SidebarButton variant="outlined">Edit Poll</SidebarButton>
-      <SidebarButton variant="outlined">Close Poll</SidebarButton>
-    </div>
-  );
-
   const [pageAlert, setPageAlert] = useState<AlertShape | null>(null);
 
-  const result = pollData.data ? (
-    <VotePoll pollData={pollData.data} setPageAlert={setPageAlert} />
-  ) : (
-    "Loading"
-  );
   return (
-    <Page alert={pageAlert} sidebar={Sidebar} autoHideAlertMilliSeconds={4000}>
-      {result}
+    <Page
+      alert={pageAlert}
+      sidebar={VotePageSidebar}
+      autoHideAlertMilliSeconds={4000}
+    >
+      {pollData.data ? (
+        <VotePoll pollData={pollData.data} setPageAlert={setPageAlert} />
+      ) : (
+        "Loading"
+      )}
     </Page>
   );
 }
