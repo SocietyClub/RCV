@@ -17,19 +17,24 @@ function CandidateSelectionBox({ candidateName, width }: Props) {
     justifyContent: "space-between",
     background: "white",
     zIndex: 1,
-    width: width
+    width: width,
+  };
+  const boxWrapperStyle: React.CSSProperties = {
+    height: "calc(56px + 1rem)", // Setting to the height of the box plus the 1rem of margin
   };
   return (
-    <Box
-      className={sharedStyles.candidateBoxSize + " " + sharedStyles.centered}
-      style={styleVals}
-      sx={{
-        boxShadow: 3,
-      }}
-    >
-      <Typography variant="h5">{candidateName}</Typography>
-      <MenuIcon />
-    </Box>
+    <div style={boxWrapperStyle}>
+      <Box
+        className={sharedStyles.candidateBoxSize + " " + sharedStyles.centered}
+        style={styleVals}
+        sx={{
+          boxShadow: 3,
+        }}
+      >
+        <Typography variant="h5">{candidateName}</Typography>
+        <MenuIcon />
+      </Box>
+    </div>
   );
 }
 
