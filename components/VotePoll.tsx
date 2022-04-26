@@ -117,6 +117,14 @@ function VotePoll({ pollData, setPageAlert }: Props) {
   const boxWidth = "22.5rem";
 
   const handleSubmitVote = () => {
+
+    if (chosenCandidates.length == 0) {
+        setPageAlert({
+          severity: "error",
+          message: `You must choose at least 1 candidate!`,
+        });
+        return
+    }
     const createVoteRequest: CreateVoteRequest = {
       choices: chosenCandidates.map((candidateName, index) => ({
         choicePosition: index + 1, // positions are 1-indexed so add 1
@@ -127,6 +135,11 @@ function VotePoll({ pollData, setPageAlert }: Props) {
     };
 
     createVote(pollData.pollId, createVoteRequest);
+
+    setPageAlert({
+      severity: "success",
+      message: `Your vote was submitted!`,
+    });
   };
 
   return (
