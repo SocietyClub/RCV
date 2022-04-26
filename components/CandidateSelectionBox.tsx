@@ -19,11 +19,11 @@ function CandidateSelectionBox({ candidateName, width }: Props) {
     zIndex: 1,
     width: width,
   };
-  const outerStyle: React.CSSProperties = {
+  const boxWrapperStyle: React.CSSProperties = {
     height: "calc(56px + 1rem)", // Setting to the height of the box plus the 1rem of margin
   };
   return (
-    <div style={outerStyle}>
+    <div style={boxWrapperStyle}>
       <Box
         className={sharedStyles.candidateBoxSize + " " + sharedStyles.centered}
         style={styleVals}
