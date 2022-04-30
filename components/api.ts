@@ -32,7 +32,7 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest) => {
     .then((data) => data.json());
 };
 
-export const UpdatePollRequest: (userID: string, id: String, data: UpdatePollRequest) => Promise<ResponseShape<Poll>> = (userID, id, data) => {
+export const UpdatePollRequest: (userID: string, id: string, data: UpdatePollRequest) => Promise<ResponseShape<Poll>> = (userID, id, data) => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
     method: 'PATCH',
     mode: 'cors',

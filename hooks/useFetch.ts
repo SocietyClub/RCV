@@ -13,7 +13,7 @@ const emptyFetchData: fetchDataShape<dataType> = {
   isInitial: true,
 };
 
-export const useFetch: (fetchFunction: promiseType<responseType>) => [fetchDataShape<dataType>, promiseType<void>] = (fetchFunction) => {
+export const useFetch: (fetchFunction: promiseType<responseType>) => [fetchDataShape<dataType>, promiseType<fetchDataShape<dataType>>] = (fetchFunction) => {
   const [response, setResponse] = useState(emptyFetchData);
 
   const userID = useUserID();
@@ -23,22 +23,26 @@ export const useFetch: (fetchFunction: promiseType<responseType>) => [fetchDataS
 
     return fetchFunction(String(userID), ...args)
       .then((res) => {
-        setResponse({
+        const data = {
           data: res.data,
           messages: res.messages,
           isLoading: false,
           isSuccess: true,
           isInitial: false,
-        });
+        }
+        setResponse(data);
+        return data;
       })
       .catch((res) => {
-        setResponse({
+        const data = {
           data: res.data,
           messages: res.messages,
           isLoading: false,
           isSuccess: false,
           isInitial: false,
-        });
+        }
+        setResponse(data);
+        return data;
       });
   };
 

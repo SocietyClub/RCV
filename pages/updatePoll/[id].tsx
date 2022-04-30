@@ -78,7 +78,7 @@ const UpdatePollPage: NextPage = () => {
     };
 
     updatePollData(String(id), data).then(() => {
-      // TODO: Need to do some redirect here but the page doesn't exist yet
+      router.push(`/vote/${pollData.data.pollId}`);
     });
   };
 

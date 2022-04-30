@@ -8,6 +8,7 @@ import styles from './createPoll.module.css';
 import { CreatePollRequest } from '../components/api';
 import PollInputForm from '../components/PollInputForm';
 import { useFetch } from '../hooks/useFetch';
+import Router from 'next/router'
 
 const CreatePollPage: NextPage = () => {
   const [pollName, setPollName] = useState('');
@@ -39,8 +40,8 @@ const CreatePollPage: NextPage = () => {
       candidateList,
     };
 
-    createPollRequest(data).then(() => {
-      // TODO: Need to do some redirect here but the page doesn't exist yet
+    createPollRequest(data).then((res) => {
+      Router.push(`/vote/${res.data.pollId}`)
     });
   };
 

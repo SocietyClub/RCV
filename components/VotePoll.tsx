@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Alert, Snackbar } from "@mui/material";
 import {
   DragDropContext,
   Draggable,
@@ -14,6 +13,7 @@ import CandidateSelectionBox from "./CandidateSelectionBox";
 import CandidateChoiceBox from "./CandidateChoiceBox";
 import { CreateVote } from "./api";
 import { useFetch } from "../hooks/useFetch";
+import Router from 'next/router'
 
 type Props = {
   pollData: Poll;
@@ -134,7 +134,9 @@ function VotePoll({ pollData, setPageAlert }: Props) {
       })),
     };
 
-    createVote(pollData.pollId, createVoteRequest);
+    createVote(pollData.pollId, createVoteRequest).then(() => {
+      Router.push(`/poll/${pollData.pollId}/results`)
+    });
 
     setPageAlert({
       severity: "success",
