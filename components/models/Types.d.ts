@@ -64,8 +64,10 @@ type VoteBallot = {
 };
 
 type CreateVoteRequest = {
-  choices: VoteBallot[]
-}
+  choices: VoteBallot[];
+};
+
+type CreateVoteResponse = {};
 
 type fetchDataShape<T> = {
   data: T | null;
@@ -81,6 +83,6 @@ type ResponseShape<T> = {
 };
 
 type AlertShape = {
-  severity: 'error' | 'success' | 'info' | 'warning';
+  severity: "error" | "success" | "info" | "warning";
   message: string;
 };

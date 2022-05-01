@@ -20,7 +20,7 @@ const UpdatePollPage: NextPage = () => {
 
   const [pollData, getPollData] = useFetch(GetPollRequest);
   const [updatedPollData, updatePollData] = useFetch(UpdatePollRequest);
-  const [alert, setAlert] = useState<AlertShape>(null);
+  const [alert, setAlert] = useState<AlertShape | null>(null);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -78,7 +78,7 @@ const UpdatePollPage: NextPage = () => {
     };
 
     updatePollData(String(id), data).then(() => {
-      router.push(`/vote/${pollData.data.pollId}`);
+      router.push(`/vote/${pollData?.data?.pollId}`);
     });
   };
 
