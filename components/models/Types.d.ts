@@ -83,6 +83,6 @@ type ResponseShape<T> = {
 };
 
 type AlertShape = {
-  severity: "error" | "success" | "info" | "warning";
+  severity: 'error' | 'success' | 'info' | 'warning';
   message: string;
 };
