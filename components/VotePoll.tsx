@@ -110,16 +110,18 @@ function VotePoll({ pollData, setPageAlert }: Props) {
 
     createVote(pollData.pollId, createVoteRequest)
       .then(() => {
+        setPageAlert({
+          severity: 'success',
+          message: 'Your vote was submitted!',
+        });
         Router.push(`/poll/${pollData.pollId}/results`);
       })
       .catch(() => {
-        throw new Error('Failed to cast the vote');
+        setPageAlert({
+          severity: 'error',
+          message: 'Failed to submit your vote.',
+        });
       });
-
-    setPageAlert({
-      severity: 'success',
-      message: `Your vote was submitted!`,
-    });
   };
 
   return (

@@ -82,7 +82,7 @@ const UpdatePollPage: NextPage = () => {
         router.push(`/vote/${pollData?.data?.pollId}`);
       })
       .catch(() => {
-        throw new Error('Failed to Update the Poll');
+        setAlert({ severity: 'error', message: 'An error has occured while updating the poll' });
       });
   };
 

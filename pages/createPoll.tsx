@@ -45,7 +45,7 @@ const CreatePollPage: NextPage = () => {
         Router.push(`/vote/${res?.data?.pollId}`);
       })
       .catch(() => {
-        throw new Error('Failed to Create the Poll');
+        setAlert({ severity: 'error', message: 'An error has occured while creating the poll' });
       });
   };
 
