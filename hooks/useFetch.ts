@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { useUserID } from './useUserID';
 
 type promiseType<T> = (...arg: any[]) => Promise<T>;
-type responseType = ResponseShape<dataType>;
-type dataType = Poll; // This will need to change when we add in getting Votes. I am sick of trying to make this generic :(
 
-const emptyFetchData: fetchDataShape<dataType> = {
+const emptyFetchData = {
   data: null,
   messages: [],
   isLoading: false,
@@ -13,8 +11,8 @@ const emptyFetchData: fetchDataShape<dataType> = {
   isInitial: true,
 };
 
-export const useFetch: (fetchFunction: promiseType<responseType>) => [fetchDataShape<dataType>, promiseType<void>] = (fetchFunction) => {
-  const [response, setResponse] = useState(emptyFetchData);
+export function useFetch<T>(fetchFunction: promiseType<ResponseShape<T>>): [fetchDataShape<T>, promiseType<fetchDataShape<T>>] {
+  const [response, setResponse] = useState<fetchDataShape<T>>(emptyFetchData);
 
   const userID = useUserID();
 
@@ -23,22 +21,26 @@ export const useFetch: (fetchFunction: promiseType<responseType>) => [fetchDataS
 
     return fetchFunction(String(userID), ...args)
       .then((res) => {
-        setResponse({
+        const data = {
           data: res.data,
           messages: res.messages,
           isLoading: false,
           isSuccess: true,
           isInitial: false,
-        });
+        }
+        setResponse(data);
+        return data;
       })
       .catch((res) => {
-        setResponse({
+        const data = {
           data: res.data,
           messages: res.messages,
           isLoading: false,
           isSuccess: false,
           isInitial: false,
-        });
+        }
+        setResponse(data);
+        return data;
       });
   };
 

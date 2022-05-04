@@ -8,13 +8,14 @@ import styles from './createPoll.module.css';
 import { CreatePollRequest } from '../components/api';
 import PollInputForm from '../components/PollInputForm';
 import { useFetch } from '../hooks/useFetch';
+import Router from 'next/router';
 
 const CreatePollPage: NextPage = () => {
   const [pollName, setPollName] = useState('');
   const [maxNumRankedChoiceCount, setMaxNumRankedChoiceCount] = useState(3);
   const [candidateList, setCandidateList] = useState<Array<Candidate>>([{ name: '' }]);
   const [createdPollData, createPollRequest] = useFetch(CreatePollRequest);
-  const [alert, setAlert] = useState<AlertShape>(null);
+  const [alert, setAlert] = useState<AlertShape | null>(null);
 
   useEffect(() => {
     // We don't want to spawn any alerts from before the request is sent. This is pretty janky
@@ -39,9 +40,13 @@ const CreatePollPage: NextPage = () => {
       candidateList,
     };
 
-    createPollRequest(data).then(() => {
-      // TODO: Need to do some redirect here but the page doesn't exist yet
-    });
+    createPollRequest(data)
+      .then((res) => {
+        Router.push(`/vote/${res?.data?.pollId}`);
+      })
+      .catch(() => {
+        setAlert({ severity: 'error', message: 'An error has occured while creating the poll' });
+      });
   };
 
   return (
