@@ -20,7 +20,7 @@ const UpdatePollPage: NextPage = () => {
 
   const [pollData, getPollData] = useFetch(GetPollRequest);
   const [updatedPollData, updatePollData] = useFetch(UpdatePollRequest);
-  const [alert, setAlert] = useState<AlertShape>(null);
+  const [alert, setAlert] = useState<AlertShape | null>(null);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -77,9 +77,13 @@ const UpdatePollPage: NextPage = () => {
       candidateList,
     };
 
-    updatePollData(String(id), data).then(() => {
-      // TODO: Need to do some redirect here but the page doesn't exist yet
-    });
+    updatePollData(String(id), data)
+      .then(() => {
+        router.push(`/vote/${pollData?.data?.pollId}`);
+      })
+      .catch(() => {
+        setAlert({ severity: 'error', message: 'An error has occured while updating the poll' });
+      });
   };
 
   return (

@@ -64,8 +64,10 @@ type VoteBallot = {
 };
 
 type CreateVoteRequest = {
-  choices: VoteBallot[]
-}
+  choices: VoteBallot[];
+};
+
+type CreateVoteResponse = {};
 
 type fetchDataShape<T> = {
   data: T | null;

@@ -51,12 +51,12 @@ const PollResultsPage: NextPage = () => {
   };
 
   const goForwardStep = () => {
-    const nextStep = Math.min(pollResultsData.data.steps.length, currentStep + 1);
+    const nextStep = Math.min(pollResultsData?.data?.steps?.length || 0, currentStep + 1);
     setCurrentStep(nextStep);
   };
 
   const onFirstStep = currentStep <= 1;
-  const onLastStep = currentStep >= pollResultsData?.data?.steps?.length;
+  const onLastStep = currentStep >= (pollResultsData?.data?.steps?.length || 0);
 
   return (
     <Page alert={alert}>

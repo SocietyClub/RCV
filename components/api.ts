@@ -2,7 +2,7 @@
 const host = "http://localhost:8080"
 // const stagingHost = "https://societyclub-rcv-backend.uc.r.appspot.com"
 
-export const CreatePollRequest = (userID: string, data: CreatePollRequest) => {
+export const CreatePollRequest = (userID: string, data: CreatePollRequest): Promise<ResponseShape<Poll>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll`, {
     method: 'POST',
     mode: 'cors',
@@ -32,7 +32,7 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest) => {
     .then((data) => data.json());
 };
 
-export const UpdatePollRequest: (userID: string, id: String, data: UpdatePollRequest) => Promise<ResponseShape<Poll>> = (userID, id, data) => {
+export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRequest): Promise<ResponseShape<Poll>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
     method: 'PATCH',
     mode: 'cors',
@@ -62,11 +62,8 @@ export const UpdatePollRequest: (userID: string, id: String, data: UpdatePollReq
     .then((data) => data.json());
 };
 
-export const GetPollRequest: (userID: string, id: string) => Promise<ResponseShape<Poll>> = (userID, id) => {
-  return fetch(
-      `${host}/ranked-choice-vote/v1/poll/${id}`, 
-          {
-
+export const GetPollRequest = (userID: string, id: string): Promise<ResponseShape<Poll>> => {
+  return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -95,7 +92,7 @@ export const GetPollRequest: (userID: string, id: string) => Promise<ResponseSha
 };
 
 
-export const CreateVote = (userID: string, id: string, data: CreateVoteRequest) => {
+export const CreateVote = (userID: string, id: string, data: CreateVoteRequest): Promise<ResponseShape<CreateVoteResponse>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}/vote`, {
     method: 'POST',
     mode: 'cors',
@@ -126,7 +123,7 @@ export const CreateVote = (userID: string, id: string, data: CreateVoteRequest) 
 };
 
 
-export const GetPollResultsRequest: (userID: string, id: string) => Promise<ResponseShape<Poll>> = (userID, id) => {
+export const GetPollResultsRequest = (userID: string, id: string): Promise<ResponseShape<PollResults>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}/results`, {
     method: 'GET',
     mode: 'cors',
@@ -137,7 +134,7 @@ export const GetPollResultsRequest: (userID: string, id: string) => Promise<Resp
   }).then((response) => {
     console.log(response);
 
-    return {
+    const r: ResponseShape<PollResults> = {
       messages: [],
       data: {
         pollId: 'test-do-not-deleto',
@@ -342,7 +339,9 @@ export const GetPollResultsRequest: (userID: string, id: string) => Promise<Resp
           ],
         },
       },
-    };
+    }
+    // Had to do this to match what data.json() typically does since we are hardcoding it here
+    return Promise.resolve<any>(r);
 
     if (!response.ok) {
       return response.json().then(
@@ -359,6 +358,6 @@ export const GetPollResultsRequest: (userID: string, id: string) => Promise<Resp
       );
     }
     return response;
-  });
+  })
   // .then((data) => data.json());
 };
