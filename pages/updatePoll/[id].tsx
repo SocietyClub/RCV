@@ -77,9 +77,13 @@ const UpdatePollPage: NextPage = () => {
       candidateList,
     };
 
-    updatePollData(String(id), data).then(() => {
-      router.push(`/vote/${pollData?.data?.pollId}`);
-    });
+    updatePollData(String(id), data)
+      .then(() => {
+        router.push(`/vote/${pollData?.data?.pollId}`);
+      })
+      .catch(() => {
+        throw new Error('Failed to Update the Poll');
+      });
   };
 
   return (

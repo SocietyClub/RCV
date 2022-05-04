@@ -40,9 +40,13 @@ const CreatePollPage: NextPage = () => {
       candidateList,
     };
 
-    createPollRequest(data).then((res) => {
-      Router.push(`/vote/${res?.data?.pollId}`);
-    });
+    createPollRequest(data)
+      .then((res) => {
+        Router.push(`/vote/${res?.data?.pollId}`);
+      })
+      .catch(() => {
+        throw new Error('Failed to Create the Poll');
+      });
   };
 
   return (

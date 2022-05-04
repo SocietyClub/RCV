@@ -1,19 +1,14 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
-import CandidateSelectionBox from "./CandidateSelectionBox";
-import CandidateChoiceBox from "./CandidateChoiceBox";
-import { CreateVote } from "./api";
-import { useFetch } from "../hooks/useFetch";
-import Router from 'next/router'
+import React, { Dispatch, SetStateAction } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
+import CandidateSelectionBox from './CandidateSelectionBox';
+import CandidateChoiceBox from './CandidateChoiceBox';
+import { CreateVote } from './api';
+import { useFetch } from '../hooks/useFetch';
+import Router from 'next/router';
 
 type Props = {
   pollData: Poll;
@@ -31,7 +26,7 @@ function VotePoll({ pollData, setPageAlert }: Props) {
     }
   }, [pollData.candidateList]);
 
-  type DropId = "candidatesDropId" | "chosenCandidatesDropId";
+  type DropId = 'candidatesDropId' | 'chosenCandidatesDropId';
 
   const dropIdMap = {
     candidatesDropId: {
@@ -51,11 +46,7 @@ function VotePoll({ pollData, setPageAlert }: Props) {
     const destId = destination.droppableId as DropId;
 
     if (sourceId === destId) {
-      const reOrderedItems = reorder(
-        dropIdMap[sourceId].list,
-        source.index,
-        destination.index
-      );
+      const reOrderedItems = reorder(dropIdMap[sourceId].list, source.index, destination.index);
 
       dropIdMap[sourceId].setList(reOrderedItems);
     } else {
@@ -63,23 +54,14 @@ function VotePoll({ pollData, setPageAlert }: Props) {
       if (!isValidMove(destId)) {
         return;
       }
-      const [newSourceList, newDestList] = move(
-        dropIdMap[sourceId].list,
-        dropIdMap[destId].list,
-        source.index,
-        destination.index
-      );
+      const [newSourceList, newDestList] = move(dropIdMap[sourceId].list, dropIdMap[destId].list, source.index, destination.index);
 
       dropIdMap[sourceId].setList(newSourceList);
       dropIdMap[destId].setList(newDestList);
     }
   };
 
-  const reorder = (
-    list: string[],
-    startIndex: number,
-    endIndex: number
-  ): string[] => {
+  const reorder = (list: string[], startIndex: number, endIndex: number): string[] => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -88,12 +70,10 @@ function VotePoll({ pollData, setPageAlert }: Props) {
 
   const isValidMove = (destId: DropId): boolean => {
     const destList = dropIdMap[destId].list;
-    const userChoosesMoreThanAllowedNumberOfCandidates =
-      destId == "chosenCandidatesDropId" &&
-      destList.length >= pollData.maxNumRankedChoiceCount;
+    const userChoosesMoreThanAllowedNumberOfCandidates = destId == 'chosenCandidatesDropId' && destList.length >= pollData.maxNumRankedChoiceCount;
     if (userChoosesMoreThanAllowedNumberOfCandidates) {
       setPageAlert({
-        severity: "warning",
+        severity: 'warning',
         message: `You can only choose a max of ${pollData.maxNumRankedChoiceCount} candidates!`,
       });
     }
@@ -101,12 +81,7 @@ function VotePoll({ pollData, setPageAlert }: Props) {
     return isValid;
   };
 
-  const move = (
-    source: string[],
-    destination: string[],
-    sourceIndex: number,
-    destIndex: number
-  ): string[][] => {
+  const move = (source: string[], destination: string[], sourceIndex: number, destIndex: number): string[][] => {
     const sourceClone = [...source];
     const destClone = [...destination];
     const [removed] = sourceClone.splice(sourceIndex, 1);
@@ -114,16 +89,15 @@ function VotePoll({ pollData, setPageAlert }: Props) {
     return [sourceClone, destClone];
   };
 
-  const boxWidth = "22.5rem";
+  const boxWidth = '22.5rem';
 
   const handleSubmitVote = () => {
-
     if (chosenCandidates.length == 0) {
-        setPageAlert({
-          severity: "error",
-          message: `You must choose at least 1 candidate!`,
-        });
-        return
+      setPageAlert({
+        severity: 'error',
+        message: `You must choose at least 1 candidate!`,
+      });
+      return;
     }
     const createVoteRequest: CreateVoteRequest = {
       choices: chosenCandidates.map((candidateName, index) => ({
@@ -134,12 +108,16 @@ function VotePoll({ pollData, setPageAlert }: Props) {
       })),
     };
 
-    createVote(pollData.pollId, createVoteRequest).then(() => {
-      Router.push(`/poll/${pollData.pollId}/results`)
-    });
+    createVote(pollData.pollId, createVoteRequest)
+      .then(() => {
+        Router.push(`/poll/${pollData.pollId}/results`);
+      })
+      .catch(() => {
+        throw new Error('Failed to cast the vote');
+      });
 
     setPageAlert({
-      severity: "success",
+      severity: 'success',
       message: `Your vote was submitted!`,
     });
   };
@@ -147,41 +125,39 @@ function VotePoll({ pollData, setPageAlert }: Props) {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "5rem",
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '5rem',
       }}
     >
       <div
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-around',
         }}
       >
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            textAlign: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'center',
           }}
         >
           <Typography variant="h2">{pollData.pollName}</Typography>
           <Typography variant="subtitle2">{pollData.pollDesc}</Typography>
-          <div style={{ height: "2rem" }} />
-          <Typography variant="h5">
-            Drag your selections to the ranked spots on the right.
-          </Typography>
-          <div style={{ height: "4rem" }} />
+          <div style={{ height: '2rem' }} />
+          <Typography variant="h5">Drag your selections to the ranked spots on the right.</Typography>
+          <div style={{ height: '4rem' }} />
         </div>
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
           }}
         >
           <Droppable droppableId="candidatesDropId">
@@ -196,15 +172,8 @@ function VotePoll({ pollData, setPageAlert }: Props) {
                 {candidates.map((item, index) => (
                   <Draggable key={item} draggableId={item} index={index}>
                     {(provided, _) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <CandidateSelectionBox
-                          candidateName={item}
-                          width={boxWidth}
-                        />
+                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <CandidateSelectionBox candidateName={item} width={boxWidth} />
                       </div>
                     )}
                   </Draggable>
@@ -213,7 +182,7 @@ function VotePoll({ pollData, setPageAlert }: Props) {
               </div>
             )}
           </Droppable>
-          <div style={{ width: "2rem" }}></div>
+          <div style={{ width: '2rem' }}></div>
           <Droppable droppableId="chosenCandidatesDropId">
             {(provided, _) => (
               <>
@@ -226,13 +195,11 @@ function VotePoll({ pollData, setPageAlert }: Props) {
                 >
                   <div
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       zIndex: -1,
                     }}
                   >
-                    {Array.from(
-                      Array(pollData.maxNumRankedChoiceCount).keys()
-                    ).map((num) => (
+                    {Array.from(Array(pollData.maxNumRankedChoiceCount).keys()).map((num) => (
                       <CandidateChoiceBox key={num} width={boxWidth}>
                         Candidate {num + 1}
                       </CandidateChoiceBox>
@@ -241,15 +208,8 @@ function VotePoll({ pollData, setPageAlert }: Props) {
                   {chosenCandidates.map((item, index) => (
                     <Draggable key={item} draggableId={item} index={index}>
                       {(provided, _) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <CandidateSelectionBox
-                            candidateName={item}
-                            width={boxWidth}
-                          />
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <CandidateSelectionBox candidateName={item} width={boxWidth} />
                         </div>
                       )}
                     </Draggable>

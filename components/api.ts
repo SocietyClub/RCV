@@ -2,7 +2,7 @@
 const host = "http://localhost:8080"
 // const stagingHost = "https://societyclub-rcv-backend.uc.r.appspot.com"
 
-export const CreatePollRequest: (userID: string, data: CreatePollRequest) => Promise<ResponseShape<Poll>> = (userID, data) => {
+export const CreatePollRequest = (userID: string, data: CreatePollRequest): Promise<ResponseShape<Poll>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll`, {
     method: 'POST',
     mode: 'cors',
@@ -32,7 +32,7 @@ export const CreatePollRequest: (userID: string, data: CreatePollRequest) => Pro
     .then((data) => data.json());
 };
 
-export const UpdatePollRequest: (userID: string, id: string, data: UpdatePollRequest) => Promise<ResponseShape<Poll>> = (userID, id, data) => {
+export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRequest): Promise<ResponseShape<Poll>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
     method: 'PATCH',
     mode: 'cors',
@@ -62,7 +62,7 @@ export const UpdatePollRequest: (userID: string, id: string, data: UpdatePollReq
     .then((data) => data.json());
 };
 
-export const GetPollRequest: (userID: string, id: string) => Promise<ResponseShape<Poll>> = (userID, id) => {
+export const GetPollRequest = (userID: string, id: string): Promise<ResponseShape<Poll>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
     method: 'GET',
     mode: 'cors',
@@ -92,7 +92,7 @@ export const GetPollRequest: (userID: string, id: string) => Promise<ResponseSha
 };
 
 
-export const CreateVote: (userID: string, id: string, data: CreateVoteRequest) => Promise<ResponseShape<CreateVoteResponse>> = (userID, id, data) => {
+export const CreateVote = (userID: string, id: string, data: CreateVoteRequest): Promise<ResponseShape<CreateVoteResponse>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}/vote`, {
     method: 'POST',
     mode: 'cors',
@@ -123,7 +123,7 @@ export const CreateVote: (userID: string, id: string, data: CreateVoteRequest) =
 };
 
 
-export const GetPollResultsRequest: (userID: string, id: string) => Promise<ResponseShape<PollResults>> = (userID, id) => {
+export const GetPollResultsRequest = (userID: string, id: string): Promise<ResponseShape<PollResults>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}/results`, {
     method: 'GET',
     mode: 'cors',
