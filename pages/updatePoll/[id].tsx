@@ -56,7 +56,6 @@ const UpdatePollPage: NextPage = () => {
 
     if (pollData.isSuccess && !pollData.data?.userIsCreator) {
       setAlert({ severity: 'error', message: 'You are not allowed to edit a poll you did not create' });
-      console.log('errror');
     }
   }, [pollData.isInitial, pollData.isLoading, pollData.isSuccess]);
 
