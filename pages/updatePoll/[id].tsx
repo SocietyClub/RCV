@@ -10,6 +10,7 @@ import { GetPollRequest, UpdatePollRequest } from '../../components/api';
 import PollInputForm from '../../components/PollInputForm';
 import { useFetch } from '../../hooks/useFetch';
 import CircularProgress from '@mui/material/CircularProgress';
+import Fade from '@mui/material/Fade';
 
 const UpdatePollPage: NextPage = () => {
   const router = useRouter();
@@ -97,7 +98,17 @@ const UpdatePollPage: NextPage = () => {
   return (
     <Page alert={alert}>
       <Typography variant="h3">Edit Poll</Typography>
-      {pollData.isLoading && <CircularProgress />}
+      {pollData.isLoading && (
+        <Fade
+          in={pollData.isLoading}
+          style={{
+            transitionDelay: pollData.isLoading ? '800ms' : '0ms',
+          }}
+          unmountOnExit
+        >
+          <CircularProgress />
+        </Fade>
+      )}
       {showPoll && (
         <>
           <PollInputForm
