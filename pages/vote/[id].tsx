@@ -89,10 +89,4 @@ function VotePage() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  // Required for react-beautiful-dnd to work
-  resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
-  return { props: { data: [] } };
-};
-
 export default VotePage;
