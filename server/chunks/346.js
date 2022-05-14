@@ -2,7 +2,7 @@ exports.id = 346;
 exports.ids = [346];
 exports.modules = {
 
-/***/ 1346:
+/***/ 346:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -13,20 +13,20 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 // EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__(9297);
+var external_react_ = __webpack_require__(297);
 // EXTERNAL MODULE: external "@mui/material/Typography"
-var Typography_ = __webpack_require__(8082);
+var Typography_ = __webpack_require__(82);
 var Typography_default = /*#__PURE__*/__webpack_require__.n(Typography_);
 // EXTERNAL MODULE: external "@mui/material/TextField"
-var TextField_ = __webpack_require__(8258);
+var TextField_ = __webpack_require__(258);
 var TextField_default = /*#__PURE__*/__webpack_require__.n(TextField_);
 // EXTERNAL MODULE: external "@mui/material"
-var material_ = __webpack_require__(7949);
+var material_ = __webpack_require__(949);
 // EXTERNAL MODULE: ./components/CandidateInputList.module.css
 var CandidateInputList_module = __webpack_require__(338);
 var CandidateInputList_module_default = /*#__PURE__*/__webpack_require__.n(CandidateInputList_module);
 // EXTERNAL MODULE: external "react/jsx-runtime"
-var jsx_runtime_ = __webpack_require__(5282);
+var jsx_runtime_ = __webpack_require__(282);
 ;// CONCATENATED MODULE: ./components/CandidateInputList.tsx
 
 

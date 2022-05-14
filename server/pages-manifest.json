@@ -5,7 +5,7 @@
   "/": "pages/index.html",
   "/poll/[id]/results": "pages/poll/[id]/results.html",
   "/updatePoll/[id]": "pages/updatePoll/[id].html",
-  "/vote/[id]": "pages/vote/[id].js",
+  "/vote/[id]": "pages/vote/[id].html",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/404": "pages/404.html"

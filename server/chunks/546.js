@@ -2,7 +2,7 @@ exports.id = 546;
 exports.ids = [546];
 exports.modules = {
 
-/***/ 6165:
+/***/ 165:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -13,18 +13,18 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 // EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__(9297);
+var external_react_ = __webpack_require__(297);
 // EXTERNAL MODULE: external "@mui/material/Snackbar"
-var Snackbar_ = __webpack_require__(1505);
+var Snackbar_ = __webpack_require__(505);
 var Snackbar_default = /*#__PURE__*/__webpack_require__.n(Snackbar_);
 // EXTERNAL MODULE: external "@mui/material/Alert"
-var Alert_ = __webpack_require__(3103);
+var Alert_ = __webpack_require__(103);
 var Alert_default = /*#__PURE__*/__webpack_require__.n(Alert_);
 // EXTERNAL MODULE: ./components/Sidebar.module.css
-var Sidebar_module = __webpack_require__(7723);
+var Sidebar_module = __webpack_require__(723);
 var Sidebar_module_default = /*#__PURE__*/__webpack_require__.n(Sidebar_module);
 // EXTERNAL MODULE: external "react/jsx-runtime"
-var jsx_runtime_ = __webpack_require__(5282);
+var jsx_runtime_ = __webpack_require__(282);
 ;// CONCATENATED MODULE: ./components/Sidebar.tsx
 
 
@@ -104,7 +104,7 @@ Page.defaultProps = defaultProps;
 
 /***/ }),
 
-/***/ 7392:
+/***/ 392:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -396,7 +396,7 @@ const GetPollResultsRequest = (userID, id) => {
 
 /***/ }),
 
-/***/ 2175:
+/***/ 175:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -407,11 +407,11 @@ __webpack_require__.d(__webpack_exports__, {
 });
 
 // EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__(9297);
+var external_react_ = __webpack_require__(297);
 // EXTERNAL MODULE: external "react-cookie"
 var external_react_cookie_ = __webpack_require__(311);
 // EXTERNAL MODULE: external "uuid"
-var external_uuid_ = __webpack_require__(1231);
+var external_uuid_ = __webpack_require__(231);
 ;// CONCATENATED MODULE: ./hooks/useUserID.ts
 
 
@@ -498,7 +498,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 7723:
+/***/ 723:
 /***/ ((module) => {
 
 // Exports
