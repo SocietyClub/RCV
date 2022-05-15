@@ -2,5 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   distDir: 'build',
-  assetPrefix: '/rcv/',
+  basePath: '/RCV',
+  assetPrefix: '/RCV/',
 };
