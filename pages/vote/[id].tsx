@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { GetStaticPaths } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 
 import Button from '@mui/material/Button';
 import { GetServerSideProps } from 'next';
@@ -100,6 +100,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ],
     fallback: false // true, false or 'blocking'
   };
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {}, // will be passed to the page component as props
+  }
 }
 
 export default VotePage;
