@@ -24,6 +24,7 @@ jobs:
           yarn install
           yarn build
           yarn export
+          touch out/.nojekyll # Creates a file telling Github not to build the project using Jekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
