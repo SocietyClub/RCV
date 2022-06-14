@@ -35,3 +35,5 @@ yarn-error.log*
 .vercel
 
 old
+
+firestore_prod_key.json
