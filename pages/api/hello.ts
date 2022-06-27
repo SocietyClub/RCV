@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -9,16 +10,13 @@ type Data = {
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
 
-
-const serviceAccount = require('./firestore_prod_key.json');
-
+const serviceAccount = JSON.parse(process.env.FIRESTORE_KEY || "")
 
 initializeApp({
-credential: cert(serviceAccount)
+    credential: cert(serviceAccount)
 });
 
 const db = getFirestore();
-
 
 
 export default async function handler(
