@@ -11,7 +11,8 @@ yarn dev
 ```
 
 ```bash
-cp .env .env.local
+vercel link (link to the project, you may need access to vercel)
+vercel env pull
 ```
 
 Then fill .env.local with firebase key which you can retrieve from the google project
