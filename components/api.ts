@@ -63,7 +63,7 @@ export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRe
 };
 
 export const GetPollRequest = (userID: string, id: string): Promise<ResponseShape<Poll>> => {
-  return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
+  return fetch(`/api/v1/poll/${id}`, {
     method: 'GET',
     mode: 'cors',
     headers: {
