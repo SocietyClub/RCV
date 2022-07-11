@@ -87,13 +87,6 @@ type AlertShape = {
   message: string;
 };
 
-enum Severity {
-  'FATAL',
-  'ERROR',
-  'WARNING',
-  'INFO',
-}
-
 type ServerResponse = SuccessResponse | ErrorResponse;
 
 type SuccessResponse = {

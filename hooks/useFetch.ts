@@ -40,7 +40,7 @@ export function useFetch<T>(fetchFunction: promiseType<ResponseShape<T>>): [fetc
           isInitial: false,
         }
         setResponse(data);
-        return data;
+        return Promise.reject(data);
       });
   };
 
