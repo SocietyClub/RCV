@@ -4,6 +4,4 @@ const isProd = process.env.NODE_ENV === 'production';
 module.exports = {
   reactStrictMode: true,
   distDir: 'build',
-  basePath: isProd ? '/RCV' : '',
-  assetPrefix: isProd ? '/RCV/' : '',
 };
