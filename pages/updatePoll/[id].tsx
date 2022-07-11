@@ -9,6 +9,8 @@ import styles from './[id].module.css';
 import { GetPollRequest, UpdatePollRequest } from '../../components/api';
 import PollInputForm from '../../components/PollInputForm';
 import { useFetch } from '../../hooks/useFetch';
+import CircularProgress from '@mui/material/CircularProgress';
+import Fade from '@mui/material/Fade';
 
 const UpdatePollPage: NextPage = () => {
   const router = useRouter();
@@ -52,6 +54,10 @@ const UpdatePollPage: NextPage = () => {
     if (pollData.isLoading || pollData.isSuccess) {
       setAlert(null);
     }
+
+    if (pollData.isSuccess && !pollData.data?.userIsCreator) {
+      setAlert({ severity: 'error', message: 'You are not allowed to edit a poll you did not create' });
+    }
   }, [pollData.isInitial, pollData.isLoading, pollData.isSuccess]);
 
   useEffect(() => {
@@ -86,21 +92,40 @@ const UpdatePollPage: NextPage = () => {
       });
   };
 
+  const showPoll = !pollData.isLoading && pollData.data?.userIsCreator;
+  const showPermissionText = !pollData.isLoading && !pollData.data?.userIsCreator;
+
   return (
     <Page alert={alert}>
       <Typography variant="h3">Edit Poll</Typography>
-      <PollInputForm
-        textFieldClassName={styles.candidateTextField}
-        pollName={pollName}
-        maxNumRankedChoiceCount={maxNumRankedChoiceCount}
-        candidateList={candidateList}
-        setPollName={setPollName}
-        setMaxNumRankedChoiceCount={setMaxNumRankedChoiceCount}
-        setCandidateList={setCandidateList}
-      />
-      <Button className={styles.updatePollButton} variant="contained" startIcon={<SaveIcon />} color="success" onClick={updatePoll}>
-        Update Poll
-      </Button>
+      {pollData.isLoading && (
+        <Fade
+          in={pollData.isLoading}
+          style={{
+            transitionDelay: pollData.isLoading ? '800ms' : '0ms',
+          }}
+          unmountOnExit
+        >
+          <CircularProgress />
+        </Fade>
+      )}
+      {showPoll && (
+        <>
+          <PollInputForm
+            textFieldClassName={styles.candidateTextField}
+            pollName={pollName}
+            maxNumRankedChoiceCount={maxNumRankedChoiceCount}
+            candidateList={candidateList}
+            setPollName={setPollName}
+            setMaxNumRankedChoiceCount={setMaxNumRankedChoiceCount}
+            setCandidateList={setCandidateList}
+          />
+          <Button className={styles.updatePollButton} variant="contained" startIcon={<SaveIcon />} color="success" onClick={updatePoll}>
+            Update Poll
+          </Button>
+        </>
+      )}
+      {showPermissionText && <Typography variant="subtitle1">You do not have permission to edit this Poll</Typography>}
     </Page>
   );
 };
