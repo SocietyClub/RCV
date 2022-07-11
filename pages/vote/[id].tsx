@@ -10,6 +10,7 @@ import VotePoll from '../../components/VotePoll';
 import { GetPollRequest } from '../../components/api';
 import { useFetch } from '../../hooks/useFetch';
 import useCopyToClipboard from '../../hooks/useCopyToClipboard';
+import { useUserID } from '../../hooks/useUserID';
 
 const SidebarButton = (props: any) => (
   <Button {...props} style={{ marginBottom: '0.5rem' }}>
@@ -21,9 +22,10 @@ type Props = {
   onShareClick: React.MouseEventHandler<HTMLButtonElement>;
   onEditClick: React.MouseEventHandler<HTMLButtonElement>;
   onCloseClick: React.MouseEventHandler<HTMLButtonElement>;
+  showEditButton: boolean;
 };
 
-const VotePageSidebar = ({ onShareClick, onEditClick, onCloseClick }: Props) => {
+const VotePageSidebar = ({ onShareClick, onEditClick, onCloseClick, showEditButton }: Props) => {
   return (
     <div
       style={{
@@ -37,9 +39,11 @@ const VotePageSidebar = ({ onShareClick, onEditClick, onCloseClick }: Props) => 
       <SidebarButton variant="contained" color="primary" onClick={onShareClick}>
         Share
       </SidebarButton>
-      <SidebarButton variant="outlined" onClick={onEditClick}>
-        Edit Poll
-      </SidebarButton>
+      {showEditButton && (
+        <SidebarButton variant="outlined" onClick={onEditClick}>
+          Edit Poll
+        </SidebarButton>
+      )}
       <SidebarButton variant="outlined" onClick={onCloseClick}>
         Close Poll
       </SidebarButton>
@@ -80,6 +84,7 @@ function VotePage() {
             router.push(`/updatePoll/${pollData?.data?.pollId}`);
           }}
           onCloseClick={() => {}}
+          showEditButton={pollData.data?.userIsCreator || false}
         />
       }
       autoHideAlertMilliSeconds={4000}

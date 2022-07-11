@@ -1,7 +1,7 @@
 import { useCookies } from 'react-cookie';
 import { v4 as uuidv4 } from 'uuid';
 
-export const useUserID = () => {
+export const useUserID = (): string => {
   const [cookies, setCookie, removeCookie] = useCookies(['X-USER-ID']);
 
   if (!cookies['X-USER-ID']) {
