@@ -9,6 +9,7 @@ import CandidateChoiceBox from './CandidateChoiceBox';
 import { CreateVote } from './api';
 import { useFetch } from '../hooks/useFetch';
 import Router from 'next/router';
+import styles from './VotePoll.module.css';
 
 type Props = {
   pollData: Poll;
@@ -124,6 +125,10 @@ function VotePoll({ pollData, setPageAlert }: Props) {
       });
   };
 
+  const handleSkipVote = () => {
+    Router.push(`/poll/${pollData.pollId}/results`);
+  }
+
   return (
     <div
       style={{
@@ -225,6 +230,9 @@ function VotePoll({ pollData, setPageAlert }: Props) {
       </DragDropContext>
       <Button variant="contained" color="primary" onClick={handleSubmitVote}>
         Submit Your Vote!
+      </Button>
+      <Button className={styles.skipVoteButton} variant="text" color="primary" onClick={handleSkipVote}>
+        Skip to Results
       </Button>
     </div>
   );
