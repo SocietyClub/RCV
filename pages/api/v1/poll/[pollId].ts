@@ -4,9 +4,7 @@ import { Buffer } from 'buffer';
 import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
 import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 
-
 type Data = {
-  name: string;
   data: any;
 };
 
@@ -22,10 +20,12 @@ const db = getFirestore();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { pollId } = req.query;
-  const doc = await db.collection('polls').doc(pollId).get();
+  const doc = await db
+    .collection('polls')
+    .doc(pollId as string)
+    .get();
 
   res.status(200).json({
     data: doc.data(),
   });
 }
-
