@@ -3,7 +3,7 @@ const host = "http://localhost:8080"
 // const stagingHost = "https://societyclub-rcv-backend.uc.r.appspot.com"
 
 export const CreatePollRequest = (userID: string, data: CreatePollRequest): Promise<ResponseShape<Poll>> => {
-  return fetch(`${host}/ranked-choice-vote/v1/poll`, {
+  return fetch(`/api/v1/poll`, {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -16,15 +16,10 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest): Prom
       if (!response.ok) {
         return response.json().then(
           (data) =>
-            Promise.reject({
-              data: null,
-              messages: [],
-            })
-          // TODO: It should probably be this but the backend is not returning errors nicely for 404s and etc.
-          // Promise.reject({
-          //   data: data.data,
-          //   messages: data.messages,
-          // })
+          Promise.reject({
+            data: data.data,
+            messages: data.messages,
+          })
         );
       }
       return response;
@@ -63,7 +58,7 @@ export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRe
 };
 
 export const GetPollRequest = (userID: string, id: string): Promise<ResponseShape<Poll>> => {
-  return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
+  return fetch(`/api/v1/poll/${id}`, {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -75,15 +70,10 @@ export const GetPollRequest = (userID: string, id: string): Promise<ResponseShap
       if (!response.ok) {
         return response.json().then(
           (data) =>
-            Promise.reject({
-              data: null,
-              messages: [],
-            })
-          // TODO: It should probably be this but the backend is not returning errors nicely for 404s and etc.
-          // Promise.reject({
-          //   data: data.data,
-          //   messages: data.messages,
-          // })
+          Promise.reject({
+            data: data.data,
+            messages: data.messages,
+          })
         );
       }
       return response;
