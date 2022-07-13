@@ -1,5 +1,5 @@
 // TODO: move to environment variable
-const host = "http://localhost:8080"
+const host = 'http://localhost:8080';
 // const stagingHost = "https://societyclub-rcv-backend.uc.r.appspot.com"
 
 export const CreatePollRequest = (userID: string, data: CreatePollRequest): Promise<ResponseShape<Poll>> => {
@@ -14,8 +14,7 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest): Prom
   })
     .then((response) => {
       if (!response.ok) {
-        return response.json().then(
-          (data) =>
+        return response.json().then((data) =>
           Promise.reject({
             data: data.data,
             messages: data.messages,
@@ -68,8 +67,7 @@ export const GetPollRequest = (userID: string, id: string): Promise<ResponseShap
   })
     .then((response) => {
       if (!response.ok) {
-        return response.json().then(
-          (data) =>
+        return response.json().then((data) =>
           Promise.reject({
             data: data.data,
             messages: data.messages,
@@ -80,7 +78,6 @@ export const GetPollRequest = (userID: string, id: string): Promise<ResponseShap
     })
     .then((data) => data.json());
 };
-
 
 export const CreateVote = (userID: string, id: string, data: CreateVoteRequest): Promise<ResponseShape<CreateVoteResponse>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}/vote`, {
@@ -111,7 +108,6 @@ export const CreateVote = (userID: string, id: string, data: CreateVoteRequest):
     })
     .then((data) => data.json());
 };
-
 
 export const GetPollResultsRequest = (userID: string, id: string): Promise<ResponseShape<PollResults>> => {
   return fetch(`${host}/ranked-choice-vote/v1/poll/${id}/results`, {
@@ -329,7 +325,7 @@ export const GetPollResultsRequest = (userID: string, id: string): Promise<Respo
           ],
         },
       },
-    }
+    };
     // Had to do this to match what data.json() typically does since we are hardcoding it here
     return Promise.resolve<any>(r);
 
@@ -348,6 +344,6 @@ export const GetPollResultsRequest = (userID: string, id: string): Promise<Respo
       );
     }
     return response;
-  })
+  });
   // .then((data) => data.json());
 };

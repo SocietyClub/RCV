@@ -1,9 +1,9 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import styles from "./PollInputForm.module.css";
-import CandidateInputList from "./CandidateInputList";
-import { MenuItem } from "@mui/material";
+import React from 'react';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import styles from './PollInputForm.module.css';
+import CandidateInputList from './CandidateInputList';
+import { MenuItem } from '@mui/material';
 
 type Props = {
   textFieldClassName: string;
@@ -18,10 +18,7 @@ type Props = {
 const defaultProps = {};
 
 const PollInputForm = (props: Props) => {
-  const maxNumberOfRankedChoices: Number = Math.max(
-    10,
-    props.candidateList.length
-  );
+  const maxNumberOfRankedChoices: Number = Math.max(10, props.candidateList.length);
 
   return (
     <>
@@ -32,9 +29,7 @@ const PollInputForm = (props: Props) => {
         id="poll-title"
         variant="filled"
         value={props.pollName}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          props.setPollName(event.target.value)
-        }
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.setPollName(event.target.value)}
       />
       <TextField
         className={props.textFieldClassName}
@@ -43,9 +38,7 @@ const PollInputForm = (props: Props) => {
         select
         variant="filled"
         value={props.maxNumRankedChoiceCount}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          props.setMaxNumRankedChoiceCount(Number(event.target.value))
-        }
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.setMaxNumRankedChoiceCount(Number(event.target.value))}
       >
         {Array(maxNumberOfRankedChoices)
           .fill(0)
@@ -55,11 +48,7 @@ const PollInputForm = (props: Props) => {
             </MenuItem>
           ))}
       </TextField>
-      <CandidateInputList
-        candidateList={props.candidateList}
-        setCandidateList={props.setCandidateList}
-        textFieldClassName={props.textFieldClassName}
-      />
+      <CandidateInputList candidateList={props.candidateList} setCandidateList={props.setCandidateList} textFieldClassName={props.textFieldClassName} />
     </>
   );
 };
