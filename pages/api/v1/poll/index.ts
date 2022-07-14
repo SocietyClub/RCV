@@ -1,11 +1,11 @@
 import admin from 'firebase-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Buffer } from 'buffer';
-import { getFirestore } from 'firebase-admin/firestore';
-import { cert } from 'firebase-admin/app';
-import { validate as isValidUUID, v4 as uuidv4 } from 'uuid';
-import { createMessage } from '../../../../components/utils/utils';
 import { Severity } from '../../../../components/models/Enums';
+import { cert } from 'firebase-admin/app';
+import { createMessage } from '../../../../components/utils/utils';
+import { getFirestore } from 'firebase-admin/firestore';
+import { validate as isValidUUID, v4 as uuidv4 } from 'uuid';
 
 const X_USER_ID = 'x-user-id';
 
@@ -47,11 +47,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const doc = await db.collection('polls').doc(pollId).set({
     pollId: pollId,
-    pollOpen: true,
+    pollOpen: true, // We specifically are always setting this to true since we haven't added that feature yet
     pollName: body.pollName,
     creatorId: userId,
     startDate: Date.now(),
-    endDate: null, // We specifically aren't setting this on create poll since we haven't added that feature yet
+    endDate: null, // We specifically aren't setting this since we haven't added that feature yet
     maxNumRankedChoiceCount: body.maxNumRankedChoiceCount,
     candidateList: body.candidateList,
   });
