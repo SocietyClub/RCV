@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     .doc(pollId)
     .get();
 
-  const pollData = doc.data()
+  const pollData = doc.data() as PollDB | undefined
 
   if (!pollData) {
     return res.status(500).json({
@@ -48,13 +48,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const userIsCreator = pollData.creatorId === userId
 
   if(req.method === 'GET') {
+    const pollResponse: Poll = {
+      pollId: pollData.pollId,
+      pollOpen: pollData.pollOpen,
+      startDate: pollData.startDate,
+      endDate: pollData.endDate,
+      pollName: pollData.pollName,
+      maxNumRankedChoiceCount: pollData.maxNumRankedChoiceCount,
+      candidateList: pollData.candidateList,
+      // Replace creatorId with userIsCreator so the user cannot spoof the creatorId
+      userIsCreator: userIsCreator
+    }
     return res.status(200).json({
-      data: {
-        ...pollData,
-        userIsCreator: userIsCreator,
-        // Erase creatorId from pollData so the user cannot spoof the creatorId
-        creatorId: "",
-      },
+      data: pollResponse,
     });
   }
   else if (req.method === 'PATCH') {
