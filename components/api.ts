@@ -28,7 +28,7 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest): Prom
 };
 
 export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRequest): Promise<ResponseShape<Poll>> => {
-  return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
+  return fetch(`/api/v1/poll/${id}`, {
     method: 'PATCH',
     mode: 'cors',
     headers: {
@@ -42,14 +42,9 @@ export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRe
         return response.json().then(
           (data) =>
             Promise.reject({
-              data: null,
-              messages: [],
+              data: data.data,
+              messages: data.messages,
             })
-          // TODO: It should probably be this but the backend is not returning errors nicely for 404s and etc.
-          // Promise.reject({
-          //   data: data.data,
-          //   messages: data.messages,
-          // })
         );
       }
       return response;
