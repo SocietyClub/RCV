@@ -27,7 +27,7 @@ export function useFetch<T>(fetchFunction: promiseType<ResponseShape<T>>): [fetc
           isLoading: false,
           isSuccess: true,
           isInitial: false,
-        }
+        };
         setResponse(data);
         return data;
       })
@@ -38,11 +38,11 @@ export function useFetch<T>(fetchFunction: promiseType<ResponseShape<T>>): [fetc
           isLoading: false,
           isSuccess: false,
           isInitial: false,
-        }
+        };
         setResponse(data);
         return Promise.reject(data);
       });
   };
 
   return [response, fetchMethod];
-};
+}

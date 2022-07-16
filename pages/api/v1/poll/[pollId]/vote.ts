@@ -4,8 +4,8 @@ import { Buffer } from 'buffer';
 import { getFirestore } from 'firebase-admin/firestore';
 import { cert } from 'firebase-admin/app';
 import { validate as isValidUUID, v4 as uuidv4 } from 'uuid';
-import { createMessage } from '../../../../utils/utils';
-import { Severity } from '../../../../models/Enums';
+import { createMessage } from '../../../../../utils/utils';
+import { Severity } from '../../../../../models/Enums';
 
 const X_USER_ID = 'x-user-id';
 
@@ -27,34 +27,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
   }
 
-  const { body } = req;
+  const { body }: { body: CreateVoteRequest } = req;
+  const { pollId } = req.query;
   const userId = req.headers[X_USER_ID] as string;
 
   if (!isValidUUID(userId)) {
     return res.status(400).json({
       status: 'Error',
-      messages: [createMessage(Severity.ERROR, 'Request Param issue', 'Poll could not be created: User ID is not valid')],
+      messages: [createMessage(Severity.ERROR, 'Request Param issue', 'Vote could not be created: User ID is not valid')],
     });
   }
 
-  // Generate a new ID for the Poll, maybe someday we want to use human readable words for this
-  const pollId = uuidv4();
+  const doc = await db
+    .collection('votes')
+    .doc(pollId as string)
+    .set(
+      {
+        [userId]: body.choices,
+      },
+      { merge: true }
+    );
 
-  const doc = await db.collection('polls').doc(pollId).set({
-    pollId: pollId,
-    pollOpen: true, // We specifically are always setting this to true since we haven't added that feature yet
-    pollName: body.pollName,
-    creatorId: userId,
-    startDate: Date.now(),
-    endDate: null, // We specifically aren't setting this since we haven't added that feature yet
-    maxNumRankedChoiceCount: body.maxNumRankedChoiceCount,
-    candidateList: body.candidateList,
-  });
-
-  return res.status(200).json({
-    data: {
-      pollId,
-      timestamp: doc.writeTime,
-    },
-  });
+  res.status(200);
 }

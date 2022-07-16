@@ -107,10 +107,10 @@ type SuccessResponse = {
 type ErrorResponse = {
   status: string;
   messages: ErrorMessage[];
-}
+};
 
 type ErrorMessage = {
   severity: Severity;
   code: string;
   messageContent: string;
-}
+};
