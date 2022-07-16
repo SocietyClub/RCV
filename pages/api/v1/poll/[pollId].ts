@@ -63,14 +63,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       data: pollResponse,
     });
   }
-  else if (req.method === 'PATCH') {
+  if (req.method === 'PATCH') {
     // Only validate userID and check if it matches the creatorID on PATCH
     // as GET poll does not care about userID and is available to everyone
     if (!isValidUUID(userId)) {
       return res.status(400).json({
         status: "Error",
         messages: [
-          createMessage(Severity.ERROR, "Request Param issue", "Poll could not be retrieved: User ID is not valid")
+          createMessage(Severity.ERROR, "Request Param issue", "Poll could not be updated: User ID is not valid")
         ]
       });
     }
@@ -79,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return res.status(401).json({
         status: "Error",
         messages: [
-          createMessage(Severity.ERROR, "Request Param issue", "Poll could not be updated: User ID is note the Creator ID of this Poll")
+          createMessage(Severity.ERROR, "Request Param issue", "Poll could not be updated: User ID is not the Creator ID of this Poll")
         ]
       });
     }
