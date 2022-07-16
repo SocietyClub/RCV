@@ -1,9 +1,9 @@
 import admin from 'firebase-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Buffer } from 'buffer';
-import { Severity } from '../../../../components/models/Enums';
+import { Severity } from '../../../../models/Enums';
 import { cert } from 'firebase-admin/app';
-import { createMessage } from '../../../../components/utils/utils';
+import { createMessage } from '../../../../utils/utils';
 import { getFirestore } from 'firebase-admin/firestore';
 import { validate as isValidUUID } from 'uuid';
 
