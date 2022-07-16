@@ -31,19 +31,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
   }
 
-  const doc = await db
-    .collection('polls')
-    .doc(pollId)
-    .get();
-
-  const pollData = doc.data() as PollDB | undefined
-
-  if (!pollData) {
+  const pollsRef = db.collection('polls').doc(pollId)
+  const votesRef = db.collection('votes').doc(pollId)
+  let pollDoc;
+  try {
+    pollDoc = await pollsRef.get();
+  } catch  {
     return res.status(500).json({
       status: "Error",
       messages: [createMessage(Severity.ERROR, "Database Call Failed", "No data returned for that pollId")]
     });
   }
+  const pollData = pollDoc.data() as PollDB
 
   const userIsCreator = pollData.creatorId === userId
 
@@ -86,7 +85,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const { body } = req;
 
-    const doc = await db.collection('polls').doc(pollId).update({
+    // Update poll and delete it's associated votes in a batch so that the changes are atomic
+    const batch = db.batch();
+    batch.update(pollsRef, {
       pollId: pollId,
       // pollOpen: true, // We specifically are always setting this to true since we haven't added that feature yet
       pollName: body.pollName,
@@ -94,8 +95,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       maxNumRankedChoiceCount: body.maxNumRankedChoiceCount,
       candidateList: body.candidateList,
     });
+    // Delete votes associated with the poll to handle weird edgecases like, maxNumRankedChoiceCount changing, or the
+    // pollOwner maliciously chaging the poll name/candidateList
+    batch.delete(votesRef);
 
-    // TODO check for success on firebase requests
+    try {
+        await batch.commit();
+    } catch {
+        return res.status(500).json({
+          status: "Error",
+          messages: [createMessage(Severity.ERROR, "Database Call Failed", "Could not update the poll and delete votes")]
+        });
+    }
     return res.status(200);
   }
 
