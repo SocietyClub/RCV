@@ -1,11 +1,11 @@
 import admin from 'firebase-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Buffer } from 'buffer';
-import { Severity } from '../../../../components/models/Enums';
-import { cert } from 'firebase-admin/app';
-import { createMessage } from '../../../../components/utils/utils';
 import { getFirestore } from 'firebase-admin/firestore';
+import { cert } from 'firebase-admin/app';
 import { validate as isValidUUID, v4 as uuidv4 } from 'uuid';
+import { createMessage } from '../../../../utils/utils';
+import { Severity } from '../../../../models/Enums';
 
 const X_USER_ID = 'x-user-id';
 
