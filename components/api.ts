@@ -81,9 +81,8 @@ export const GetPollRequest = (userID: string, id: string): Promise<ResponseShap
     .then((data) => data.json());
 };
 
-
 export const CreateVote = (userID: string, id: string, data: CreateVoteRequest): Promise<ResponseShape<CreateVoteResponse>> => {
-  return fetch(`${host}/ranked-choice-vote/v1/poll/${id}/vote`, {
+  return fetch(`/api/v1/poll/${id}/vote`, {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -94,17 +93,11 @@ export const CreateVote = (userID: string, id: string, data: CreateVoteRequest):
   })
     .then((response) => {
       if (!response.ok) {
-        return response.json().then(
-          (data) =>
-            Promise.reject({
-              data: null,
-              messages: [],
-            })
-          // TODO: It should probably be this but the backend is not returning errors nicely for 404s and etc.
-          // Promise.reject({
-          //   data: data.data,
-          //   messages: data.messages,
-          // })
+        return response.json().then((data) =>
+          Promise.reject({
+            data: data.data,
+            messages: data.messages,
+          })
         );
       }
       return response;

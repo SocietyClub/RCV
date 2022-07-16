@@ -2,20 +2,38 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+**Via vercel**
+Only applicable if you have access to the vercel project.
+
+If you're on windows make sure to lowercase the RCV project name.
 
 ```bash
-npm run dev
-# or
-yarn dev
-```
-
-```bash
-vercel link (link to the project, you may need access to vercel)
+# Install vercel globally
+yarn global add vercel
+# Install project packages
+yarn install
+# Link to the vercel societclub/rcv project
+vercel link
+# Run vercel with the environment variables via vercel or pull them and run manually
+vercel dev
+or
 vercel env pull
+yarn run dev
 ```
 
-Then fill .env.local with firebase key which you can retrieve from the google project
+**Via yarn**
+
+TODO: create instructions on how to run without needing a firestore account (using the test environment)
+
+Copy `.env.example` to `.env` then fill the firestore credentials from your own google account
+
+```bash
+yarn dev
+# or
+npm run dev
+```
+
+**Development instructions**
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
@@ -25,22 +43,14 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+**Deployment**
 
-To learn more about Next.js, take a look at the following resources:
+For testing, every PR will create a vercel preview deployment which you can use to test your changes.
+
+For production deployment, simply get your PR merged into the main branch.
+
+## Learn More about Next.js
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-To the vercel-cli tool to the project created in the vercel ui, use the `vercel link` command.
-[vercel-link](vercel-link.png)
-
-Then you can deploy by just typing `vercel`. In the future we will move this into github actions with secrets stored in github secrets.
+- [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
