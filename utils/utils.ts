@@ -1,11 +1,11 @@
-import { Severity } from "../models/Enums"
+import { Severity } from '../models/Enums';
 
 /**
  * Utility for Creating a message used for the API response errors.
- * 
- * @param severity 
- * @param code 
- * @param messageContent 
+ *
+ * @param severity
+ * @param code
+ * @param messageContent
  * @returns a message structure
  */
 export const createMessage = (severity: Severity, code: string, messageContent: string): ErrorMessage => {
@@ -13,5 +13,5 @@ export const createMessage = (severity: Severity, code: string, messageContent: 
     severity,
     code,
     messageContent,
-  }
-}
+  };
+};

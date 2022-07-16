@@ -1,4 +1,5 @@
-.textField, .candidateTextField {
+.textField,
+.candidateTextField {
   max-width: 600px;
 }
 
