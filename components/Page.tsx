@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-import Sidebar from "./Sidebar";
-import styles from "./Page.module.css";
+import React, { useEffect, useState } from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Sidebar from './Sidebar';
+import styles from './Page.module.css';
 
 type Props = {
   children: React.ReactNode;
@@ -41,11 +41,7 @@ const Page = (props: Props) => {
         <div className={styles.mainContent}>{props.children}</div>
         {props.sidebar}
       </div>
-      <Snackbar
-        open={snackbarOpen}
-        onClose={handleClose}
-        autoHideDuration={props.autoHideAlertMilliSeconds}
-      >
+      <Snackbar open={snackbarOpen} onClose={handleClose} autoHideDuration={props.autoHideAlertMilliSeconds}>
         <Alert onClose={handleClose} severity={alert?.severity}>
           {alert?.message}
         </Alert>

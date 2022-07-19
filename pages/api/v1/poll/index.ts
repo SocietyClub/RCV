@@ -4,8 +4,8 @@ import { Buffer } from 'buffer';
 import { getFirestore } from 'firebase-admin/firestore';
 import { cert } from 'firebase-admin/app';
 import { validate as isValidUUID, v4 as uuidv4 } from 'uuid';
-import { createMessage } from '../../../../components/utils/utils';
-import { Severity } from '../../../../components/models/Enums';
+import { createMessage } from '../../../../utils/utils';
+import { Severity } from '../../../../models/Enums';
 
 const X_USER_ID = 'x-user-id';
 
@@ -20,13 +20,10 @@ if (admin.apps.length === 0) {
 const db = getFirestore();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ServerResponse>) {
-
   if (req.method !== 'POST') {
     return res.status(400).json({
-      status: "Error",
-      messages: [
-        createMessage(Severity.ERROR, "Request Method Issue", "Request must be of type POST for this endpoint")
-      ]
+      status: 'Error',
+      messages: [createMessage(Severity.ERROR, 'Request Method Issue', 'Request must be of type POST for this endpoint')],
     });
   }
 
@@ -35,10 +32,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   if (!isValidUUID(userId)) {
     return res.status(400).json({
-      status: "Error",
-      messages: [
-        createMessage(Severity.ERROR, "Request Param issue", "Poll could not be created: User ID is not valid")
-      ]
+      status: 'Error',
+      messages: [createMessage(Severity.ERROR, 'Request Param issue', 'Poll could not be created: User ID is not valid')],
     });
   }
 
@@ -62,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   return res.status(200).json({
     data: {
       pollId,
-      timestamp: doc.writeTime
-    }
+      timestamp: doc.writeTime,
+    },
   });
 }

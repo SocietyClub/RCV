@@ -127,7 +127,7 @@ function VotePoll({ pollData, setPageAlert }: Props) {
 
   const handleSkipVote = () => {
     Router.push(`/poll/${pollData.pollId}/results`);
-  }
+  };
 
   return (
     <div

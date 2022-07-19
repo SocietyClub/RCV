@@ -1,6 +1,6 @@
-import { Button, TextField, Typography } from "@mui/material";
-import React, { useState, useEffect, useCallback } from "react";
-import styles from "./CandidateInputList.module.css";
+import { Button, TextField, Typography } from '@mui/material';
+import React, { useState, useEffect, useCallback } from 'react';
+import styles from './CandidateInputList.module.css';
 
 type Props = {
   textFieldClassName: string;
@@ -19,22 +19,20 @@ const CandidateInputList = (props: Props) => {
 
   const addCandidate = () => {
     setNumFocusChange(!focusChange);
-    props.setCandidateList([...props.candidateList, { name: "" }]);
+    props.setCandidateList([...props.candidateList, { name: '' }]);
   };
 
   const setFocusToLastCandidate = useCallback(() => {
-    const lastCandidateTextInput = document.querySelectorAll(
-      "." + props.textFieldClassName + ":last-of-type input"
-    )[0] as HTMLInputElement;
+    const lastCandidateTextInput = document.querySelectorAll('.' + props.textFieldClassName + ':last-of-type input')[0] as HTMLInputElement;
     if (lastCandidateTextInput && lastCandidateTextInput.focus) {
       lastCandidateTextInput.focus();
     }
   }, [props.textFieldClassName]);
 
   const handleEnterKey = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       setNumFocusChange(!focusChange);
-      props.setCandidateList([...props.candidateList, { name: "" }]);
+      props.setCandidateList([...props.candidateList, { name: '' }]);
     }
   };
 
@@ -65,11 +63,7 @@ const CandidateInputList = (props: Props) => {
         />
       ))}
 
-      <Button
-        className={styles.addCandidateButton}
-        variant="contained"
-        onClick={addCandidate}
-      >
+      <Button className={styles.addCandidateButton} variant="contained" onClick={addCandidate}>
         Add Candidate
       </Button>
     </>
