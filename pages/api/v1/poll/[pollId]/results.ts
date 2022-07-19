@@ -62,11 +62,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   const { pollId } = req.query;
-  const pollPromise = db.collection('polls').doc(pollId as string).get();
-  const pollVotesPromise = db.collection('votes').doc(pollId as string).get();
+  const pollPromise = db
+    .collection('polls')
+    .doc(pollId as string)
+    .get();
+  const pollVotesPromise = db
+    .collection('votes')
+    .doc(pollId as string)
+    .get();
 
   // Awaiting on the Promise.all here to be able to run those two DB calls in parallel
-  const [pollData, pollVotesData] = await Promise.all([pollPromise, pollVotesPromise])
+  const [pollData, pollVotesData] = await Promise.all([pollPromise, pollVotesPromise]);
 
   const poll = pollData.data() as Poll;
   const pollVotes = pollVotesData.data() as DBPollVotesObject;
