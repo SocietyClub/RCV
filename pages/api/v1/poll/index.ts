@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
   }
 
-  const { body } = req;
+  const body = req.body as CreatePollRequest;
   const userId = req.headers[X_USER_ID] as string
 
   if (!isValidUUID(userId)) {
@@ -45,6 +45,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   // Generate a new ID for the Poll, maybe someday we want to use human readable words for this
   const pollId = uuidv4();
 
+  // Cleaning the candidate list to make sure we aren't getting any non-strings or empty strings
+  const sanitizedCandidateList = body.candidateList.filter(candidate => typeof candidate.name === 'string' && candidate.name.length > 0)
+
   const doc = await db.collection('polls').doc(pollId).set({
     pollId: pollId,
     pollOpen: true,
@@ -53,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     startDate: Date.now(),
     endDate: null, // We specifically aren't setting this on create poll since we haven't added that feature yet
     maxNumRankedChoiceCount: body.maxNumRankedChoiceCount,
-    candidateList: body.candidateList,
+    candidateList: sanitizedCandidateList,
   });
 
   return res.status(200).json({

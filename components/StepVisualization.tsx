@@ -11,9 +11,13 @@ type Props = {
 const defaultProps = {};
 
 const getYourEntryVoteForCurrentStep = (yourEntry: ResultYourEntry, step: ResultStep) => {
+  if (!yourEntry.choices) {
+    return '';
+  }
+
   for (const choice of yourEntry.choices) {
     for (const candidate of step.candidateList) {
-      if (!candidate.eliminated && choice.candidate.name === candidate.name) {
+      if (!candidate.isEliminated && choice.candidate.name === candidate.name) {
         return candidate.name;
       }
     }
@@ -25,7 +29,7 @@ const StepVisualization = (props: Props) => {
   props.step.candidateList.forEach((candidate, index) => candidateMap.set(candidate.name, index));
 
   const yourVoteCurrentStep = getYourEntryVoteForCurrentStep(props.yourEntry, props.step);
-  const yourVoteFirstChoice = props.yourEntry.choices[0].candidate.name;
+  const yourVoteFirstChoice = props.yourEntry?.choices?.[0]?.candidate?.name;
 
   return (
     <div>
@@ -35,7 +39,7 @@ const StepVisualization = (props: Props) => {
             <Typography variant="body1">{candidate.name}</Typography>
           </div>
           {candidate.votes
-            .filter(() => !candidate.eliminated)
+            .filter(() => !candidate.isEliminated)
             .map((vote) => {
               if (yourVoteCurrentStep === candidate.name && yourVoteFirstChoice === vote.firstChoiceCandidate) {
                 return (

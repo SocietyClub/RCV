@@ -45,7 +45,7 @@ type ResultStep = {
 
 type ResultCandidate = {
   name: string;
-  eliminated: boolean;
+  isEliminated: boolean;
   votes: Array<ResultVote>;
 };
 
@@ -96,10 +96,10 @@ type SuccessResponse = {
 type ErrorResponse = {
   status: string;
   messages: ErrorMessage[];
-}
+};
 
 type ErrorMessage = {
   severity: Severity;
   code: string;
   messageContent: string;
-}
+};
