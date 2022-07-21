@@ -18,20 +18,15 @@ type CandidateCalculationStructure = {
 };
 
 type CalculationStep = {
-  [name: string]: CandidateCalculationStructure;
+  [candidateName: string]: CandidateCalculationStructure;
 };
 
-type DBPollVote = {
-  choicePosition: number;
-  candidate: Candidate;
+type DBPollVotesByUserID = {
+  [voterUserId: string]: VoteBallot[];
 };
 
-type DBPollVotesObject = {
-  [id: string]: DBPollVote[];
-};
-
-type TransformedPollVotes = {
-  [id: string]: TransformedVote;
+type TransformedPollVotesByUserID = {
+  [voterUserId: string]: TransformedVote;
 };
 
 const serviceAccount = JSON.parse(Buffer.from(process.env.FIRESTORE_KEY_BASE64 || '', 'base64').toString('utf-8'));
@@ -75,7 +70,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const [pollData, pollVotesData] = await Promise.all([pollPromise, pollVotesPromise]);
 
   const poll = pollData.data() as Poll;
-  const pollVotes = pollVotesData.data() as DBPollVotesObject;
+  const pollVotes = pollVotesData.data() as DBPollVotesByUserID;
 
   // If no poll was found, return a Not Found error
   if (!poll) {
@@ -102,9 +97,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   // First lets transform the Votes from the DB into an easier format to work with
-  const transformedPollVotes: TransformedPollVotes = {};
+  const transformedPollVotes: TransformedPollVotesByUserID = {};
   for (const key in pollVotes) {
-    transformedPollVotes[key] = pollVotes[key].map((vote) => vote.candidate.name);
+    transformedPollVotes[key] = pollVotes[key].map(vote => vote.candidate.name);
   }
 
   const totalVoteCount = Object.values(pollVotes).length;
@@ -116,7 +111,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   calculatonSteps.push(firstCalculationStep);
 
   while (winnersArray.length === 0) {
-    const calculationStepCopy = JSON.parse(JSON.stringify(calculatonSteps[calculatonSteps.length - 1])) as CalculationStep; // Get the deep copy of latest step
+    // Get a deep copy of the latest step
+    const calculationStepCopy = JSON.parse(JSON.stringify(calculatonSteps[calculatonSteps.length - 1])) as CalculationStep;
 
     // Calculate who is winning and losing
     const { bottomCandidates, bottomVoteCount, topCandidates, topVoteCount } = calculateBottomAndTopCandidates(calculationStepCopy);
@@ -137,11 +133,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     // If we don't have a winner, eliminate the candidate(s) with the fewest votes
     // Mark the losing candidate(s) as Eliminated
-    bottomCandidates.forEach((lowestName) => (calculationStepCopy[lowestName].isEliminated = true));
+    bottomCandidates.forEach(lowestName => (calculationStepCopy[lowestName].isEliminated = true));
 
     // Re-assign the votes to the next available choice
-    bottomCandidates.forEach((lowestName) => {
-      calculationStepCopy[lowestName].votes.forEach((vote) => {
+    bottomCandidates.forEach(lowestName => {
+      calculationStepCopy[lowestName].votes.forEach(vote => {
         for (let i = 0; i < vote.length; i++) {
           // Find the first non-eliminated candidate to assign the vote too
           if (!calculationStepCopy[vote[i]].isEliminated) {
@@ -180,7 +176,7 @@ const voteCount = (votes: ResultVote[]) => {
 
 const convertCalculationStepsToResultStepShape = (calculationSteps: CalculationStep[]): ResultStep[] => {
   const steps: ResultStep[] = [];
-  calculationSteps.forEach((step) => {
+  calculationSteps.forEach(step => {
     const stepCandidates: ResultCandidate[] = [];
     for (const key in step) {
       const newVotes: ResultVote[] = [];
@@ -220,10 +216,10 @@ const convertCalculationStepsToResultStepShape = (calculationSteps: CalculationS
 
 const sortByVoteCountDesc = (a: ResultCandidate, b: ResultCandidate) => voteCount(b.votes) - voteCount(a.votes);
 
-const buildFirstStep = (poll: Poll, transformedPollVotes: TransformedPollVotes): CalculationStep => {
+const buildFirstStep = (poll: Poll, transformedPollVotes: TransformedPollVotesByUserID): CalculationStep => {
   const calculationStep: CalculationStep = {};
 
-  poll.candidateList.forEach((candidate) => {
+  poll.candidateList.forEach(candidate => {
     calculationStep[candidate.name] = {
       name: candidate.name,
       isEliminated: false,
@@ -231,20 +227,22 @@ const buildFirstStep = (poll: Poll, transformedPollVotes: TransformedPollVotes):
     };
   });
   // Add votes to candidate map
-  Object.values(transformedPollVotes).forEach((voteChoices) => {
+  Object.values(transformedPollVotes).forEach(voteChoices => {
     for (let i = 0; i < voteChoices.length; i++) {
-      if (!calculationStep[voteChoices[i]]?.isEliminated) {
-        if (calculationStep[voteChoices[i]]?.votes) {
-          calculationStep[voteChoices[i]].votes.push(voteChoices);
-        } else {
-          calculationStep[voteChoices[i]] = {
-            name: voteChoices[i],
-            isEliminated: false,
-            votes: [voteChoices],
-          };
-        }
-        break;
+      if (calculationStep[voteChoices[i]]?.isEliminated) {
+        continue;
       }
+
+      if (calculationStep[voteChoices[i]]?.votes) {
+        calculationStep[voteChoices[i]].votes.push(voteChoices);
+      } else {
+        calculationStep[voteChoices[i]] = {
+          name: voteChoices[i],
+          isEliminated: false,
+          votes: [voteChoices],
+        };
+      }
+      break;
     }
   });
 
