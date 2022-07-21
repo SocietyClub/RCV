@@ -102,7 +102,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         messages: [createMessage(Severity.ERROR, 'Database Call Failed', 'Could not update the poll and delete votes')],
       });
     }
-    return res.status(200);
+    return res.status(200).json({ data: {} });
   }
 
   // Request method didn't match checks above
