@@ -19,34 +19,32 @@ if (admin.apps.length === 0) {
 const db = getFirestore();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ServerResponse>) {
-  const userId = req.headers[X_USER_ID] as string
+  const userId = req.headers[X_USER_ID] as string;
   const { pollId } = req.query;
 
   if (!pollId || typeof pollId !== 'string') {
     return res.status(400).json({
-      status: "Error",
-      messages: [
-        createMessage(Severity.ERROR, "Request Param issue", "Poll could not be retrieved: Poll ID is not valid")
-      ]
+      status: 'Error',
+      messages: [createMessage(Severity.ERROR, 'Request Param issue', 'Poll could not be retrieved: Poll ID is not valid')],
     });
   }
 
-  const pollsRef = db.collection('polls').doc(pollId)
-  const votesRef = db.collection('votes').doc(pollId)
+  const pollsRef = db.collection('polls').doc(pollId);
+  const votesRef = db.collection('votes').doc(pollId);
   let pollDoc;
   try {
     pollDoc = await pollsRef.get();
-  } catch  {
+  } catch {
     return res.status(500).json({
-      status: "Error",
-      messages: [createMessage(Severity.ERROR, "Database Call Failed", "No data returned for that pollId")]
+      status: 'Error',
+      messages: [createMessage(Severity.ERROR, 'Database Call Failed', 'No data returned for that pollId')],
     });
   }
-  const pollData = pollDoc.data() as PollDB
+  const pollData = pollDoc.data() as PollDB;
 
-  const userIsCreator = pollData.creatorId === userId
+  const userIsCreator = pollData.creatorId === userId;
 
-  if(req.method === 'GET') {
+  if (req.method === 'GET') {
     const pollResponse: Poll = {
       pollId: pollData.pollId,
       pollOpen: pollData.pollOpen,
@@ -56,8 +54,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       maxNumRankedChoiceCount: pollData.maxNumRankedChoiceCount,
       candidateList: pollData.candidateList,
       // Replace creatorId with userIsCreator so the user cannot spoof the creatorId
-      userIsCreator: userIsCreator
-    }
+      userIsCreator: userIsCreator,
+    };
     return res.status(200).json({
       data: pollResponse,
     });
@@ -67,19 +65,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // as GET poll does not care about userID and is available to everyone
     if (!isValidUUID(userId)) {
       return res.status(400).json({
-        status: "Error",
-        messages: [
-          createMessage(Severity.ERROR, "Request Param issue", "Poll could not be updated: User ID is not valid")
-        ]
+        status: 'Error',
+        messages: [createMessage(Severity.ERROR, 'Request Param issue', 'Poll could not be updated: User ID is not valid')],
       });
     }
 
     if (!userIsCreator) {
       return res.status(401).json({
-        status: "Error",
-        messages: [
-          createMessage(Severity.ERROR, "Request Param issue", "Poll could not be updated: User ID is not the Creator ID of this Poll")
-        ]
+        status: 'Error',
+        messages: [createMessage(Severity.ERROR, 'Request Param issue', 'Poll could not be updated: User ID is not the Creator ID of this Poll')],
       });
     }
 
@@ -95,26 +89,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       maxNumRankedChoiceCount: body.maxNumRankedChoiceCount,
       candidateList: body.candidateList,
     });
+
     // Delete votes associated with the poll to handle weird edgecases like, maxNumRankedChoiceCount changing, or the
     // pollOwner maliciously chaging the poll name/candidateList
     batch.delete(votesRef);
 
     try {
-        await batch.commit();
+      await batch.commit();
     } catch {
-        return res.status(500).json({
-          status: "Error",
-          messages: [createMessage(Severity.ERROR, "Database Call Failed", "Could not update the poll and delete votes")]
-        });
+      return res.status(500).json({
+        status: 'Error',
+        messages: [createMessage(Severity.ERROR, 'Database Call Failed', 'Could not update the poll and delete votes')],
+      });
     }
     return res.status(200);
   }
 
   // Request method didn't match checks above
   return res.status(400).json({
-    status: "Error",
-    messages: [
-      createMessage(Severity.ERROR, "Request Method Issue", "Request must be of type GET or PATCH for this endpoint")
-    ]
+    status: 'Error',
+    messages: [createMessage(Severity.ERROR, 'Request Method Issue', 'Request must be of type GET or PATCH for this endpoint')],
   });
 }

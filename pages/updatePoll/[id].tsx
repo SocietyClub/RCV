@@ -1,16 +1,19 @@
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../components/Page';
+import PollInputForm from '../../components/PollInputForm';
+import React, { useEffect, useState } from 'react';
+import SaveIcon from '@mui/icons-material/Save';
+import Typography from '@mui/material/Typography';
 import styles from './[id].module.css';
 import { GetPollRequest, UpdatePollRequest } from '../../components/api';
-import PollInputForm from '../../components/PollInputForm';
+import { LoadingCircle } from '../../components/LoadingCircle';
 import { useFetch } from '../../hooks/useFetch';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fade from '@mui/material/Fade';
+import { useRouter } from 'next/router';
+
+import type { NextPage } from 'next';
+
 
 const UpdatePollPage: NextPage = () => {
   const router = useRouter();
