@@ -17,11 +17,22 @@ type Poll = {
   startDate: string;
   endDate: string;
   pollName: string;
-  pollDesc: string;
+  // pollDesc: string;
   maxNumRankedChoiceCount: number;
   candidateList: Array<Candidate>;
   userIsCreator: boolean;
 };
+
+type PollDB = {
+  pollId: string;
+  pollOpen: boolean;
+  startDate: string;
+  endDate: string;
+  pollName: string;
+  maxNumRankedChoiceCount: number;
+  candidateList: Array<Candidate>;
+  creatorId: userId,
+}
 
 type Candidate = {
   name: string;

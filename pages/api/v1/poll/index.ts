@@ -42,11 +42,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const doc = await db.collection('polls').doc(pollId).set({
     pollId: pollId,
-    pollOpen: true,
+    pollOpen: true, // We specifically are always setting this to true since we haven't added that feature yet
     pollName: body.pollName,
     creatorId: userId,
     startDate: Date.now(),
-    endDate: null, // We specifically aren't setting this on create poll since we haven't added that feature yet
+    endDate: null, // We specifically aren't setting this since we haven't added that feature yet
     maxNumRankedChoiceCount: body.maxNumRankedChoiceCount,
     candidateList: body.candidateList,
   });
