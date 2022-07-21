@@ -8,8 +8,6 @@ import styles from './[id].module.css';
 import { GetPollRequest, UpdatePollRequest } from '../../components/api';
 import { LoadingCircle } from '../../components/LoadingCircle';
 import { useFetch } from '../../hooks/useFetch';
-import CircularProgress from '@mui/material/CircularProgress';
-import Fade from '@mui/material/Fade';
 import { useRouter } from 'next/router';
 
 import type { NextPage } from 'next';
@@ -101,17 +99,8 @@ const UpdatePollPage: NextPage = () => {
   return (
     <Page alert={alert}>
       <Typography variant="h3">Edit Poll</Typography>
-      {pollData.isLoading && (
-        <Fade
-          in={pollData.isLoading}
-          style={{
-            transitionDelay: pollData.isLoading ? '800ms' : '0ms',
-          }}
-          unmountOnExit
-        >
-          <CircularProgress />
-        </Fade>
-      )}
+
+      <LoadingCircle showCircle={pollData.isLoading} />
       {showPoll && (
         <>
           <PollInputForm
@@ -128,6 +117,7 @@ const UpdatePollPage: NextPage = () => {
           </Button>
         </>
       )}
+      <LoadingCircle showCircle={updatedPollData.isLoading && !updatedPollData.isInitial} />
       {showPermissionText && <Typography variant="subtitle1">You do not have permission to edit this Poll</Typography>}
     </Page>
   );
