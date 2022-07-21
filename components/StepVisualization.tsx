@@ -33,14 +33,14 @@ const StepVisualization = (props: Props) => {
 
   return (
     <div>
-      {props.step.candidateList.map((candidate) => (
+      {props.step.candidateList.map(candidate => (
         <div key={candidate.name} className={styles.vote}>
           <div className={`${styles.candidateName} ${styles['candidate' + candidateMap.get(candidate.name)]}`}>
             <Typography variant="body1">{candidate.name}</Typography>
           </div>
           {candidate.votes
             .filter(() => !candidate.isEliminated)
-            .map((vote) => {
+            .map(vote => {
               if (yourVoteCurrentStep === candidate.name && yourVoteFirstChoice === vote.firstChoiceCandidate) {
                 return (
                   <React.Fragment key={vote.firstChoiceCandidate}>

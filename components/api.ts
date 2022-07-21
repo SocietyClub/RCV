@@ -12,9 +12,9 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest): Prom
     },
     body: JSON.stringify(data),
   })
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
-        return response.json().then((data) =>
+        return response.json().then(data =>
           Promise.reject({
             data: data.data,
             messages: data.messages,
@@ -23,7 +23,7 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest): Prom
       }
       return response;
     })
-    .then((data) => data.json());
+    .then(data => data.json());
 };
 
 export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRequest): Promise<ResponseShape<Poll>> => {
@@ -36,9 +36,9 @@ export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRe
     },
     body: JSON.stringify(data),
   })
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
-        return response.json().then((data) =>
+        return response.json().then(data =>
           Promise.reject({
             data: data.data,
             messages: data.messages,
@@ -47,7 +47,7 @@ export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRe
       }
       return response;
     })
-    .then((data) => data.json());
+    .then(data => data.json());
 };
 
 export const GetPollRequest = (userID: string, id: string): Promise<ResponseShape<Poll>> => {
@@ -59,9 +59,9 @@ export const GetPollRequest = (userID: string, id: string): Promise<ResponseShap
       'X-USER-ID': userID,
     },
   })
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
-        return response.json().then((data) =>
+        return response.json().then(data =>
           Promise.reject({
             data: data.data,
             messages: data.messages,
@@ -70,7 +70,7 @@ export const GetPollRequest = (userID: string, id: string): Promise<ResponseShap
       }
       return response;
     })
-    .then((data) => data.json());
+    .then(data => data.json());
 };
 
 export const CreateVote = (userID: string, id: string, data: CreateVoteRequest): Promise<ResponseShape<CreateVoteResponse>> => {
@@ -83,9 +83,9 @@ export const CreateVote = (userID: string, id: string, data: CreateVoteRequest):
     },
     body: JSON.stringify(data),
   })
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
-        return response.json().then((data) =>
+        return response.json().then(data =>
           Promise.reject({
             data: data.data,
             messages: data.messages,
@@ -94,7 +94,7 @@ export const CreateVote = (userID: string, id: string, data: CreateVoteRequest):
       }
       return response;
     })
-    .then((data) => data.json());
+    .then(data => data.json());
 };
 
 export const GetPollResultsRequest = (userID: string, id: string): Promise<ResponseShape<PollResults>> => {
@@ -106,9 +106,9 @@ export const GetPollResultsRequest = (userID: string, id: string): Promise<Respo
       'X-USER-ID': userID,
     },
   })
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
-        return response.json().then((data) =>
+        return response.json().then(data =>
           Promise.reject({
             data: data.data,
             messages: data.messages,
@@ -117,5 +117,5 @@ export const GetPollResultsRequest = (userID: string, id: string): Promise<Respo
       }
       return response;
     })
-    .then((data) => data.json());
+    .then(data => data.json());
 };
