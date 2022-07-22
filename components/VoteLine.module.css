@@ -4,4 +4,5 @@
   margin: 0 2px;
   display: inline-block;
   border-radius: 5px;
+  background-color: var(--bg-color);
 }
