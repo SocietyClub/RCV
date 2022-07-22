@@ -152,7 +152,7 @@ function VotePoll({ pollData, setPageAlert }: Props) {
           }}
         >
           <Typography variant="h2">{pollData.pollName}</Typography>
-          <Typography variant="subtitle2">{pollData.pollDesc}</Typography>
+          {/* <Typography variant="subtitle2">{pollData.pollDesc}</Typography> */}
           <div style={{ height: '2rem' }} />
           <Typography variant="h5">Drag your selections to the ranked spots on the right.</Typography>
           <div style={{ height: '4rem' }} />
