@@ -56,7 +56,7 @@ type ResultStep = {
 
 type ResultCandidate = {
   name: string;
-  eliminated: boolean;
+  isEliminated: boolean;
   votes: Array<ResultVote>;
 };
 

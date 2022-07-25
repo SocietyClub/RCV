@@ -1,8 +1,7 @@
-import type { NextComponentType } from 'next';
 import React from 'react';
 import styles from './Sidebar.module.css';
 
-const Sidebar: NextComponentType = (props) => {
+const Sidebar = (props: React.PropsWithChildren) => {
   return <div className={styles.sidebar}>{props.children}</div>;
 };
 

@@ -69,31 +69,37 @@ const PollResultsPage: NextPage = () => {
       {!pollResultsData.isLoading && pollResultsData.data && (
         <>
           <Typography variant="h2">Poll Question: {pollResultsData.data.pollName}</Typography>
-          <Typography variant="h3">Winner: {pollResultsData.data.winner}</Typography>
-          <div className={styles.stepCounter}>
-            <Typography variant="subtitle2">
-              Step: {currentStep} out of {pollResultsData.data.steps.length}
-            </Typography>
-          </div>
-          <div className={styles.stepContainer}>
-            <div className={styles.yourVote}>
-              <YourVote />
-            </div>
+          {pollResultsData.data.steps.length > 0 ? (
+            <>
+              <Typography variant="h3">Winner: {pollResultsData.data.winner}</Typography>
+              <div className={styles.stepCounter}>
+                <Typography variant="subtitle2">
+                  Step: {currentStep} out of {pollResultsData.data.steps.length}
+                </Typography>
+              </div>
+              <div className={styles.stepContainer}>
+                <div className={styles.yourVote}>
+                  <YourVote />
+                </div>
 
-            <div className={`${styles.stepArrow} ${onFirstStep && styles.hidden}`} onClick={goBackStep}>
-              ←
-            </div>
-            <div className={styles.currentStepVisualization}>
-              <StepVisualization step={pollResultsData.data.steps[currentStep - 1]} yourEntry={pollResultsData.data.yourEntry} />
-            </div>
-            <div className={`${styles.stepArrow} ${onLastStep && styles.hidden}`} onClick={goForwardStep}>
-              →
-            </div>
-          </div>
-          <div className={styles.yourVoteExampleContainer}>
-            <Typography variant="subtitle2">Your vote is seen with border:</Typography>
-            <VoteLine voteCount={1} candidateStyleProp={styles.yourVoteExample} />
-          </div>
+                <div className={`${styles.stepArrow} ${onFirstStep && styles.hidden}`} onClick={goBackStep}>
+                  ←
+                </div>
+                <div className={styles.currentStepVisualization}>
+                  <StepVisualization step={pollResultsData.data.steps[currentStep - 1]} yourEntry={pollResultsData.data.yourEntry} />
+                </div>
+                <div className={`${styles.stepArrow} ${onLastStep && styles.hidden}`} onClick={goForwardStep}>
+                  →
+                </div>
+              </div>
+              <div className={styles.yourVoteExampleContainer}>
+                <Typography variant="subtitle2">Your vote is seen with border:</Typography>
+                <VoteLine voteCount={1} candidateStyleProp={styles.yourVoteExample} />
+              </div>
+            </>
+          ) : (
+            <Typography variant="h4">There are currently no votes placed for this poll</Typography>
+          )}
         </>
       )}
     </Page>
