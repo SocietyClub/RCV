@@ -26,8 +26,8 @@ export const CreatePollRequest = (userID: string, data: CreatePollRequest): Prom
     .then(data => data.json());
 };
 
-export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRequest): Promise<ResponseShape<Poll>> => {
-  return fetch(`${host}/ranked-choice-vote/v1/poll/${id}`, {
+export const UpdatePollRequest = (userID: string, id: string, data: UpdatePollRequest): Promise<ResponseShape<null>> => {
+  return fetch(`/api/v1/poll/${id}`, {
     method: 'PATCH',
     mode: 'cors',
     headers: {
