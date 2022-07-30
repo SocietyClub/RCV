@@ -90,7 +90,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         createMessage(Severity.ERROR, 'Request Param issue - Poll could not be updated', 'candidate name cannot be empty')
       );
     }
-    if (pollErrors) {
+    if (pollErrors.length != 0) {
       return res.status(400).json({
         status: 'Error',
         messages: pollErrors,

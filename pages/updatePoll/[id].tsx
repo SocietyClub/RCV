@@ -67,7 +67,7 @@ const UpdatePollPage: NextPage = () => {
     }
     // If fetching the Poll is done loading and was a failure then throw an alert message to the user
     if (!updatedPollData.isLoading && !updatedPollData.isSuccess) {
-      setAlert({ severity: 'error', message: 'An error has occured while updating the poll ', errorMessages: updatedPollData.messages });
+      setAlert({ severity: 'error', message: 'An error has occured while updating the poll', errorMessages: updatedPollData.messages });
     }
 
     // Clear the alert when loading or on success
