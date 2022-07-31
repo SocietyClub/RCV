@@ -74,6 +74,10 @@ type VoteBallot = {
   candidate: Candidate;
 };
 
+type GetVoteRequest = {};
+
+type GetVoteResponse = VoteBallot[];
+
 type CreateVoteRequest = {
   choices: VoteBallot[];
 };
