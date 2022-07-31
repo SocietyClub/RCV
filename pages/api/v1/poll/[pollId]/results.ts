@@ -1,10 +1,7 @@
-import admin from 'firebase-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Buffer } from 'buffer';
-import { getFirestore } from 'firebase-admin/firestore';
-import { cert } from 'firebase-admin/app';
 import { validate as isValidUUID } from 'uuid';
 import { createMessage } from '../../../../../utils/utils';
+import { getFirestoreDB } from '../../../../../utils/api-utils';
 import { Severity } from '../../../../../models/Enums';
 
 const X_USER_ID = 'x-user-id';
@@ -29,15 +26,7 @@ type TransformedPollVotesByUserID = {
   [voterUserId: string]: TransformedVote;
 };
 
-const serviceAccount = JSON.parse(Buffer.from(process.env.FIRESTORE_KEY_BASE64 || '', 'base64').toString('utf-8'));
-
-if (admin.apps.length === 0) {
-  admin.initializeApp({
-    credential: cert(serviceAccount),
-  });
-}
-
-const db = getFirestore();
+const db = getFirestoreDB();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ServerResponse>) {
   if (req.method !== 'GET') {
