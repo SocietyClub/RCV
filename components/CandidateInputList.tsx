@@ -1,4 +1,5 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, IconButton, TextField, Typography } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './CandidateInputList.module.css';
 
@@ -20,6 +21,13 @@ const CandidateInputList = (props: Props) => {
   const addCandidate = () => {
     setNumFocusChange(!focusChange);
     props.setCandidateList([...props.candidateList, { name: '' }]);
+  };
+
+  const deleteCandidate = (i: number) => {
+    // HACK: Currently modifies candidateList directly.
+    // I'm being lazy but we should probably make this not mutate the prop
+    props.candidateList.splice(i, 1);
+    props.setCandidateList([...props.candidateList]);
   };
 
   const setFocusToLastCandidate = useCallback(() => {
@@ -51,16 +59,22 @@ const CandidateInputList = (props: Props) => {
     <>
       <Typography variant="h4">Candidates</Typography>
       {props.candidateList.map((candidate, i) => (
-        <TextField
-          key={i}
-          name={String(i)}
-          className={props.textFieldClassName}
-          onKeyPress={handleEnterKey}
-          label="Candidate Name"
-          variant="filled"
-          value={candidate.name}
-          onChange={handleChange}
-        />
+        <div style={{display: "flex"}}>
+          <TextField
+            style={{flexGrow: 1}}
+            key={i}
+            name={String(i)}
+            className={props.textFieldClassName}
+            onKeyPress={handleEnterKey}
+            label="Candidate Name"
+            variant="filled"
+            value={candidate.name}
+            onChange={handleChange}
+          />
+          <IconButton aria-label="delete" onClick={() => deleteCandidate(i)}>
+            <Delete />
+          </IconButton>
+        </div>
       ))}
 
       <Button className={styles.addCandidateButton} variant="contained" onClick={addCandidate}>

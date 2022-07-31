@@ -1,3 +1,4 @@
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Page from '../../components/Page';
 import PollInputForm from '../../components/PollInputForm';
@@ -111,6 +112,9 @@ const UpdatePollPage: NextPage = () => {
             setMaxNumRankedChoiceCount={setMaxNumRankedChoiceCount}
             setCandidateList={setCandidateList}
           />
+          <Alert style={{ margin: '1rem 0', padding: '0.5rem' }} severity="warning">
+            When you update the poll, all the current votes that were made will be erased. This is to ensure all voters saw the same poll at the time of voting.
+          </Alert>
           <Button className={styles.updatePollButton} variant="contained" startIcon={<SaveIcon />} color="success" onClick={updatePoll}>
             Update Poll
           </Button>
