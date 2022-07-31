@@ -1,7 +1,3 @@
-// TODO: move to environment variable
-const host = 'http://localhost:8080';
-// const stagingHost = "https://societyclub-rcv-backend.uc.r.appspot.com"
-
 export const CreatePollRequest = (userID: string, data: CreatePollRequest): Promise<ResponseShape<Poll>> => {
   return fetch(`/api/v1/poll`, {
     method: 'POST',
