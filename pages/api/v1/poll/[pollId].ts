@@ -4,9 +4,9 @@ import { Buffer } from 'buffer';
 import { Severity } from '../../../../models/Enums';
 import { cert } from 'firebase-admin/app';
 import { createMessage } from '../../../../utils/utils';
-import { validatePollParams } from '../../../../utils/validators';
 import { getFirestore } from 'firebase-admin/firestore';
 import { validate as isValidUUID } from 'uuid';
+import { validatePollParams } from '../../../../utils/validators';
 
 const serviceAccount = JSON.parse(Buffer.from(process.env.FIRESTORE_KEY_BASE64 || '', 'base64').toString('utf-8'));
 const X_USER_ID = 'x-user-id';

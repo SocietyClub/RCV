@@ -59,7 +59,7 @@ const CandidateInputList = (props: Props) => {
     <>
       <Typography variant="h4">Candidates</Typography>
       {props.candidateList.map((candidate, i) => (
-        <div style={{display: "flex"}}>
+        <div key={i} style={{display: "flex"}}>
           <TextField
             style={{flexGrow: 1}}
             key={i}
@@ -71,7 +71,7 @@ const CandidateInputList = (props: Props) => {
             value={candidate.name}
             onChange={handleChange}
           />
-          <IconButton aria-label="delete" onClick={() => deleteCandidate(i)}>
+          <IconButton key={i} aria-label="delete" onClick={() => deleteCandidate(i)}>
             <Delete />
           </IconButton>
         </div>
