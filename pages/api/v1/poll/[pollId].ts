@@ -4,6 +4,7 @@ import { Buffer } from 'buffer';
 import { Severity } from '../../../../models/Enums';
 import { cert } from 'firebase-admin/app';
 import { createMessage } from '../../../../utils/utils';
+import { validatePollParams } from '../../../../utils/validators';
 import { getFirestore } from 'firebase-admin/firestore';
 import { validate as isValidUUID } from 'uuid';
 
@@ -79,17 +80,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const body: UpdatePollRequest = req.body;
 
-    let pollErrors: Array<ErrorMessage> = [];
-    if (body.maxNumRankedChoiceCount > body.candidateList.length) {
-      pollErrors.push(
-        createMessage(Severity.ERROR, 'Request Param issue - Poll could not be updated', 'maxNumRankedChoiceCount can not be higher than number of candidates')
-      );
-    }
-    if (body.candidateList.some((candidate: Candidate) => candidate.name === '')) {
-      pollErrors.push(
-        createMessage(Severity.ERROR, 'Request Param issue - Poll could not be updated', 'candidate name cannot be empty')
-      );
-    }
+    let pollErrors: Array<ErrorMessage> = validatePollParams(body);
     if (pollErrors.length != 0) {
       return res.status(400).json({
         status: 'Error',
