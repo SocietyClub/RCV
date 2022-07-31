@@ -24,7 +24,7 @@ const CreatePollPage: NextPage = () => {
     }
     // If done loading and was a failure then throw an alert message to the user
     if (!createdPollData.isLoading && !createdPollData.isSuccess) {
-      setAlert({ severity: 'error', message: 'An error has occured while creating the poll' });
+      setAlert({ severity: 'error', message: 'An error has occured while creating the poll', errorMessages: createdPollData.messages });
     }
 
     // Clear the alert when loading or on success
