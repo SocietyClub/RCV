@@ -44,6 +44,11 @@ const Page = (props: Props) => {
       <Snackbar open={snackbarOpen} onClose={handleClose} autoHideDuration={props.autoHideAlertMilliSeconds}>
         <Alert onClose={handleClose} severity={alert?.severity}>
           {alert?.message}
+          {alert?.errorMessages &&
+            alert.errorMessages.map((errorMessage: ErrorMessage) => (
+                <><br />{errorMessage.messageContent}</>
+            ))
+          }
         </Alert>
       </Snackbar>
     </div>

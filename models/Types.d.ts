@@ -6,9 +6,9 @@ type CreatePollRequest = {
 
 type UpdatePollRequest = {
   pollOpen?: boolean;
-  pollName?: string;
-  maxNumRankedChoiceCount?: number;
-  candidateList?: Array<Candidate>;
+  pollName: string;
+  maxNumRankedChoiceCount: number;
+  candidateList: Array<Candidate>;
 };
 
 type Poll = {
@@ -96,6 +96,7 @@ type ResponseShape<T> = {
 type AlertShape = {
   severity: 'error' | 'success' | 'info' | 'warning';
   message: string;
+  errorMessages?: ErrorMessage[];
 };
 
 type ServerResponse = SuccessResponse | ErrorResponse;

@@ -1,16 +1,17 @@
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
 import Page from '../../components/Page';
+import PollInputForm from '../../components/PollInputForm';
+import React, { useEffect, useState } from 'react';
+import SaveIcon from '@mui/icons-material/Save';
+import Typography from '@mui/material/Typography';
 import styles from './[id].module.css';
 import { GetPollRequest, UpdatePollRequest } from '../../components/api';
-import PollInputForm from '../../components/PollInputForm';
+import { LoadingCircle } from '../../components/LoadingCircle';
 import { useFetch } from '../../hooks/useFetch';
-import CircularProgress from '@mui/material/CircularProgress';
-import Fade from '@mui/material/Fade';
+import { useRouter } from 'next/router';
+
+import type { NextPage } from 'next';
 
 const UpdatePollPage: NextPage = () => {
   const router = useRouter();
@@ -67,7 +68,7 @@ const UpdatePollPage: NextPage = () => {
     }
     // If fetching the Poll is done loading and was a failure then throw an alert message to the user
     if (!updatedPollData.isLoading && !updatedPollData.isSuccess) {
-      setAlert({ severity: 'error', message: 'An error has occured while updating the poll' });
+      setAlert({ severity: 'error', message: 'An error has occured while updating the poll', errorMessages: updatedPollData.messages });
     }
 
     // Clear the alert when loading or on success
@@ -98,17 +99,8 @@ const UpdatePollPage: NextPage = () => {
   return (
     <Page alert={alert}>
       <Typography variant="h3">Edit Poll</Typography>
-      {pollData.isLoading && (
-        <Fade
-          in={pollData.isLoading}
-          style={{
-            transitionDelay: pollData.isLoading ? '800ms' : '0ms',
-          }}
-          unmountOnExit
-        >
-          <CircularProgress />
-        </Fade>
-      )}
+
+      <LoadingCircle showCircle={pollData.isLoading} />
       {showPoll && (
         <>
           <PollInputForm
@@ -120,11 +112,15 @@ const UpdatePollPage: NextPage = () => {
             setMaxNumRankedChoiceCount={setMaxNumRankedChoiceCount}
             setCandidateList={setCandidateList}
           />
+          <Alert style={{ margin: '1rem 0', padding: '0.5rem' }} severity="warning">
+            When you update the poll, all the current votes that were made will be erased. This is to ensure all voters saw the same poll at the time of voting.
+          </Alert>
           <Button className={styles.updatePollButton} variant="contained" startIcon={<SaveIcon />} color="success" onClick={updatePoll}>
             Update Poll
           </Button>
         </>
       )}
+      <LoadingCircle showCircle={updatedPollData.isLoading && !updatedPollData.isInitial} />
       {showPermissionText && <Typography variant="subtitle1">You do not have permission to edit this Poll</Typography>}
     </Page>
   );

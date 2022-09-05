@@ -6,6 +6,7 @@ import { cert } from 'firebase-admin/app';
 import { validate as isValidUUID, v4 as uuidv4 } from 'uuid';
 import { createMessage } from '../../../../utils/utils';
 import { Severity } from '../../../../models/Enums';
+import { validatePollParams } from '../../../../utils/validators';
 
 const X_USER_ID = 'x-user-id';
 
@@ -27,13 +28,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
   }
 
-  const body = req.body as CreatePollRequest;
+  const body: CreatePollRequest = req.body;
   const userId = req.headers[X_USER_ID] as string
 
   if (!isValidUUID(userId)) {
     return res.status(400).json({
       status: 'Error',
       messages: [createMessage(Severity.ERROR, 'Request Param issue', 'Poll could not be created: User ID is not valid')],
+    });
+  }
+
+  let pollErrors: Array<ErrorMessage> = validatePollParams(body);
+  if (pollErrors.length != 0) {
+    return res.status(400).json({
+      status: 'Error',
+      messages: pollErrors,
     });
   }
 
