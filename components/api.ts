@@ -69,6 +69,29 @@ export const GetPollRequest = (userID: string, id: string): Promise<ResponseShap
     .then(data => data.json());
 };
 
+export const GetVote = (userID: string, id: string): Promise<ResponseShape<GetVoteResponse>> => {
+  return fetch(`/api/v1/poll/${id}/vote`, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-USER-ID': userID,
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(data =>
+          Promise.reject({
+            data: data.data,
+            messages: data.messages,
+          })
+        );
+      }
+      return response;
+    })
+    .then(data => data.json());
+};
+
 export const CreateVote = (userID: string, id: string, data: CreateVoteRequest): Promise<ResponseShape<CreateVoteResponse>> => {
   return fetch(`/api/v1/poll/${id}/vote`, {
     method: 'POST',

@@ -77,7 +77,7 @@ const PollResultsPage: NextPage = () => {
               </div>
               <div className={styles.stepContainer}>
                 <div className={styles.yourVote}>
-                  <YourVote />
+                  <YourVote pollId={String(id)}/>
                 </div>
 
                 <div className={`${styles.stepArrow} ${onFirstStep && styles.hidden}`} onClick={goBackStep}>
