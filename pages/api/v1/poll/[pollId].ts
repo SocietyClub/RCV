@@ -1,23 +1,13 @@
-import admin from 'firebase-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Buffer } from 'buffer';
 import { Severity } from '../../../../models/Enums';
-import { cert } from 'firebase-admin/app';
 import { createMessage } from '../../../../utils/utils';
-import { getFirestore } from 'firebase-admin/firestore';
+import { getFirestoreDB } from '../../../../utils/api-utils';
 import { validate as isValidUUID } from 'uuid';
 import { validatePollParams } from '../../../../utils/validators';
 
-const serviceAccount = JSON.parse(Buffer.from(process.env.FIRESTORE_KEY_BASE64 || '', 'base64').toString('utf-8'));
 const X_USER_ID = 'x-user-id';
 
-if (admin.apps.length === 0) {
-  admin.initializeApp({
-    credential: cert(serviceAccount),
-  });
-}
-
-const db = getFirestore();
+const db = getFirestoreDB();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ServerResponse>) {
   const userId = req.headers[X_USER_ID] as string;
