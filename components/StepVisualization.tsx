@@ -1,5 +1,6 @@
 import Typography from '@mui/material/Typography';
-import React, { useMemo } from 'react';
+import React from 'react';
+import { getBgColorStyleObject } from '../utils/utils';
 import styles from './StepVisualization.module.css';
 import VoteLine from './VoteLine';
 
@@ -26,7 +27,10 @@ const getYourEntryVoteForCurrentStep = (yourEntry: ResultYourEntry, step: Result
 
 const StepVisualization = (props: Props) => {
   const candidateMap = new Map<string, number>();
-  props.step.candidateList.forEach((candidate, index) => candidateMap.set(candidate.name, index));
+  props.step.candidateList
+    .map(candidate => candidate.name)
+    .sort()
+    .forEach((candidate, index) => candidateMap.set(candidate, index));
 
   const yourVoteCurrentStep = getYourEntryVoteForCurrentStep(props.yourEntry, props.step);
   const yourVoteFirstChoice = props.yourEntry?.choices?.[0]?.candidate?.name;
@@ -35,28 +39,38 @@ const StepVisualization = (props: Props) => {
     <div>
       {props.step.candidateList.map(candidate => (
         <div key={candidate.name} className={styles.vote}>
-          <div className={`${styles.candidateName} ${styles['candidate' + candidateMap.get(candidate.name)]}`}>
-            <Typography variant="body1">{candidate.name}</Typography>
+          <div
+            style={getBgColorStyleObject(candidateMap.get(candidate.name))}
+            className={`${styles.candidateName} ${styles['candidate' + candidateMap.get(candidate.name)]} ${candidate.isEliminated ? styles.isEliminated : ''}`}
+          >
+            <Typography variant="subtitle2">{candidate.name}</Typography>
           </div>
-          {candidate.votes
-            .filter(() => !candidate.isEliminated)
-            .map(vote => {
-              if (yourVoteCurrentStep === candidate.name && yourVoteFirstChoice === vote.firstChoiceCandidate) {
-                return (
-                  <React.Fragment key={vote.firstChoiceCandidate}>
-                    <VoteLine voteCount={1} candidateStyleProp={`${styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]} ${styles['yourVote']}`} />
-                    <VoteLine voteCount={vote.voteCount - 1} candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]} />
-                  </React.Fragment>
-                );
-              }
+          {candidate.votes.map(vote => {
+            if (yourVoteCurrentStep === candidate.name && yourVoteFirstChoice === vote.firstChoiceCandidate) {
               return (
-                <VoteLine
-                  key={vote.firstChoiceCandidate}
-                  voteCount={vote.voteCount}
-                  candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]}
-                />
+                <React.Fragment key={vote.firstChoiceCandidate}>
+                  <VoteLine
+                    voteCount={1}
+                    candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
+                    candidateStyleProp={`${styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]} ${styles.yourVote}`}
+                  />
+                  <VoteLine
+                    voteCount={vote.voteCount - 1}
+                    candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
+                    candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]}
+                  />
+                </React.Fragment>
               );
-            })}
+            }
+            return (
+              <VoteLine
+                key={vote.firstChoiceCandidate}
+                voteCount={vote.voteCount}
+                candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
+                candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]}
+              />
+            );
+          })}
         </div>
       ))}
     </div>

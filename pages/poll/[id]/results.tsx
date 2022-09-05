@@ -2,8 +2,6 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
 import CircularProgress from '@mui/material/CircularProgress';
 import Page from '../../../components/Page';
 import styles from './results.module.css';
@@ -94,7 +92,7 @@ const PollResultsPage: NextPage = () => {
               </div>
               <div className={styles.yourVoteExampleContainer}>
                 <Typography variant="subtitle2">Your vote is seen with border:</Typography>
-                <VoteLine voteCount={1} candidateStyleProp={styles.yourVoteExample} />
+                <VoteLine candidateStyleNumber={0} voteCount={1} candidateStyleProp={styles.yourVoteExample} />
               </div>
             </>
           ) : (
