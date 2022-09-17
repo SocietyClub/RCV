@@ -14,3 +14,4 @@ jobs:
         with:
           project-url: https://github.com/orgs/SocietyClub/projects/1
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          environment: 'Production'
