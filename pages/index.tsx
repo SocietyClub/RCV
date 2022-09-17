@@ -27,7 +27,7 @@ const Home: NextPage = () => {
           <br />
           <div className={styles.paragraphInCol}>
             <p>
-              Ranked Choice Voting (RVC) is an electoral system conducted when voters vote in order of preference. Hypothetically speaking, let's say a
+              Ranked Choice Voting (RVC) is an electoral system conducted when voters vote in order of preference. Hypothetically speaking, let&apos;s say a
               candidate needs to earn half of the votes to win (50%).
             </p>
 
