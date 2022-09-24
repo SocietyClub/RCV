@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { deepPurple, green } from '@mui/material/colors';
 import React from 'react';
@@ -15,10 +16,10 @@ import '@fontsource/roboto/700.css';
 const theme = createTheme({
   palette: {
     primary: {
-      main: deepPurple[800],
+      main: deepPurple[300],
     },
     secondary: {
-      main: green[500],
+      main: deepPurple[200],
     },
   },
 });
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <CookiesProvider>
           <Header />
           <Component {...pageProps} />
+          <Footer />
         </CookiesProvider>
       </ThemeProvider>
     </StyledEngineProvider>

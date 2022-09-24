@@ -1,0 +1,21 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #eaeaea;
+  align-items: center;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
