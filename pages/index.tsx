@@ -9,18 +9,18 @@ const Home: NextPage = () => {
   const GTM_ID = 'GTM-55QBJ7M';
   return (
     <>
-      <Head>
-        {/* Google Tag Manager */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`
+      {/* Google Tag Manager */}
+      <Script id="google-tag-manager" strategy="afterInteractive">
+        {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','${GTM_ID}');
           `}
-        </Script>
-        {/* End Google Tag Manager */}
+      </Script>
+      {/* End Google Tag Manager */}
+      <Head>
         <title>Ranked Choice Voting</title>
         <meta name="description" content="A way to vote more sensibly" />
         <link rel="icon" href="/favicon.ico" />
@@ -79,7 +79,9 @@ const Home: NextPage = () => {
             <b>
               <p>Where can I learn more about RCV?</p>
             </b>
-            <p>You can learn more at <a href="https://www.rcvresources.org">www.rcvresources.org</a></p>
+            <p>
+              You can learn more at <a href="https://www.rcvresources.org">www.rcvresources.org</a>
+            </p>
             <br />
 
             <b>
