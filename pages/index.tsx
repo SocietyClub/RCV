@@ -27,7 +27,7 @@ const Home: NextPage = () => {
           <br />
           <div className={styles.paragraphInCol}>
             <p>
-              Ranked Choice Voting (RVC) is an electoral system conducted when voters vote in order of preference. Hypothetically speaking, let&apos;s say a
+              Ranked Choice Voting (RCV) is an electoral system conducted when voters vote in order of preference. Hypothetically speaking, let&apos;s say a
               candidate needs to earn half of the votes to win (50%).
             </p>
 
@@ -66,7 +66,7 @@ const Home: NextPage = () => {
             <b>
               <p>Where can I learn more about RCV?</p>
             </b>
-            <p>You can learn more at rcvresources.org</p>
+            <p>You can learn more at <a href="https://www.rcvresources.org">www.rcvresources.org</a></p>
             <br />
 
             <b>
