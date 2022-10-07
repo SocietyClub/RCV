@@ -1,0 +1,27 @@
+.spacer {
+  margin: 1rem;
+}
+
+.choiceWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.candidateName {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 12.5rem;
+  height: 3.25rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: black;
+  background-color: #f2f2f2;
+  border: 1px solid black;
+  border-color: var(--bg-color);
+  text-align: center;
+}
+

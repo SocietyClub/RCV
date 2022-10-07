@@ -10,6 +10,9 @@ import { useFetch } from '../../../hooks/useFetch';
 import YourVote from '../../../components/YourVote';
 import StepVisualization from '../../../components/StepVisualization';
 import VoteLine from '../../../components/VoteLine';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import Icon from '@mui/material/Icon';
 
 const PollResultsPage: NextPage = () => {
   const router = useRouter();
@@ -66,34 +69,39 @@ const PollResultsPage: NextPage = () => {
       )}
       {!pollResultsData.isLoading && pollResultsData.data && (
         <>
-          <Typography variant="h2">Poll Question: {pollResultsData.data.pollName}</Typography>
+          <h2>Poll Question: {pollResultsData.data.pollName}</h2>
           {pollResultsData.data.steps.length > 0 ? (
             <>
-              <Typography variant="h3">Winner: {pollResultsData.data.winner}</Typography>
+              <h3>Winner: {pollResultsData.data.winner}</h3>
               <div className={styles.stepCounter}>
                 <Typography variant="subtitle2">
                   Step: {currentStep} out of {pollResultsData.data.steps.length}
                 </Typography>
               </div>
               <div className={styles.stepContainer}>
-                <div className={styles.yourVote}>
-                  <YourVote pollId={String(id)}/>
-                </div>
-
-                <div className={`${styles.stepArrow} ${onFirstStep && styles.hidden}`} onClick={goBackStep}>
-                  ←
+                <div className={styles.stepArrowWrapper}>
+                  <div className={`${styles.stepArrow} ${onFirstStep && styles.hidden}`} onClick={goBackStep}>
+                    <ArrowCircleLeftIcon fontSize="large" />
+                  </div>
                 </div>
                 <div className={styles.currentStepVisualization}>
                   <StepVisualization step={pollResultsData.data.steps[currentStep - 1]} yourEntry={pollResultsData.data.yourEntry} />
                 </div>
-                <div className={`${styles.stepArrow} ${onLastStep && styles.hidden}`} onClick={goForwardStep}>
-                  →
+                <div className={styles.stepArrowWrapper}>
+                  <div className={`${styles.stepArrow} ${onLastStep && styles.hidden}`} onClick={goForwardStep}>
+                    <ArrowCircleRightIcon fontSize="large" />
+                  </div>
                 </div>
               </div>
               <div className={styles.yourVoteExampleContainer}>
                 <Typography variant="subtitle2">Your vote is seen with border:</Typography>
                 <VoteLine candidateStyleNumber={0} voteCount={1} candidateStyleProp={styles.yourVoteExample} />
               </div>
+              <div className={styles.yourVote}>
+                <YourVote pollId={String(id)} />
+              </div>
+              {/* Hack padding otherwise the footer covers the YourVote compoennt */}
+              <div style={{marginBottom: '3rem'}} />
             </>
           ) : (
             <Typography variant="h4">There are currently no votes placed for this poll</Typography>
