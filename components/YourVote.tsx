@@ -14,7 +14,7 @@ function YourVote({ pollId }: Props) {
   useEffect(() => {
     if (!pollId) return;
     getVoteData(pollId);
-  }, [pollId]);
+  }, [pollId, getVoteData]);
 
   return (
     <>
@@ -23,7 +23,7 @@ function YourVote({ pollId }: Props) {
       {!voteData.isInitial && !voteData.isSuccess && <>You have not voted yet</>}
       {voteData.data &&
         voteData?.data?.map((ballot: VoteBallot, i: number) => (
-          <div className={styles.choiceWrapper}>
+          <div className={styles.choiceWrapper} key={i}>
             <Typography variant="h5">{i + 1}:</Typography>
             <div className={styles.candidateName}>
               <Typography variant="subtitle2">{ballot.candidate.name}</Typography>
