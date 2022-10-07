@@ -53,12 +53,12 @@ const StepVisualization = (props: Props) => {
                     <VoteLine
                       voteCount={1}
                       candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
-                      candidateStyleProp={`${styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]} ${styles.yourVote}`}
+                      candidateStyleProp={styles.yourVote}
                     />
                     <VoteLine
                       voteCount={vote.voteCount - 1}
                       candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
-                      candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]}
+                      candidateStyleProp={''}
                     />
                   </React.Fragment>
                 );
