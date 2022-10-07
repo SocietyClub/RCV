@@ -14,7 +14,7 @@ function YourVote({ pollId }: Props) {
   useEffect(() => {
     if (!pollId) return;
     getVoteData(pollId);
-  }, [pollId, getVoteData]);
+  }, [pollId]);
 
   return (
     <>
