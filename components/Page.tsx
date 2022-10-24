@@ -12,7 +12,6 @@ type Props = {
 };
 
 const defaultProps: Partial<Props> = {
-  sidebar: <Sidebar />,
   alert: null,
 };
 

@@ -3,6 +3,6 @@
   width: 10px;
   margin: 0 2px;
   display: inline-block;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: var(--bg-color);
 }

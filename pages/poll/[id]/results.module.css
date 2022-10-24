@@ -30,19 +30,23 @@
 .currentStepVisualization {
   width: 100%;
   position: relative;
-  background-color: lightgray;
   border-radius: 5px;
 }
 
-.stepArrow {
-  width: 80px;
+.stepArrowWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  margin: 0 4px;
+}
+
+.stepArrow {
+  display: flex;
+  justify-content: center;
+  padding: 0.5em;
   border-radius: 5px;
+  background-color: #eee;
 }
 
 .stepArrow:hover {

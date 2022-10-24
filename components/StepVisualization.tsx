@@ -36,43 +36,45 @@ const StepVisualization = (props: Props) => {
   const yourVoteFirstChoice = props.yourEntry?.choices?.[0]?.candidate?.name;
 
   return (
-    <div>
-      {props.step.candidateList.map(candidate => (
-        <div key={candidate.name} className={styles.vote}>
-          <div
-            style={getBgColorStyleObject(candidateMap.get(candidate.name))}
-            className={`${styles.candidateName} ${styles['candidate' + candidateMap.get(candidate.name)]} ${candidate.isEliminated ? styles.isEliminated : ''}`}
-          >
-            <Typography variant="subtitle2">{candidate.name}</Typography>
-          </div>
-          {candidate.votes.map(vote => {
-            if (yourVoteCurrentStep === candidate.name && yourVoteFirstChoice === vote.firstChoiceCandidate) {
+    <div style={{ display: 'flex' }}>
+      <div style={{ width: '100%', padding: '1.5rem'}}>
+        {props.step.candidateList.map(candidate => (
+          <div key={candidate.name} className={styles.vote}>
+            <div
+              className={`${styles.candidateName} ${candidate.isEliminated ? styles.isEliminated : ''}`}
+              style={getBgColorStyleObject(candidateMap.get(candidate.name))}
+            >
+              <Typography variant="subtitle2">{candidate.name}</Typography>
+            </div>
+            {candidate.votes.map(vote => {
+              if (yourVoteCurrentStep === candidate.name && yourVoteFirstChoice === vote.firstChoiceCandidate) {
+                return (
+                  <React.Fragment key={vote.firstChoiceCandidate}>
+                    <VoteLine
+                      voteCount={1}
+                      candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
+                      candidateStyleProp={styles.yourVote}
+                    />
+                    <VoteLine
+                      voteCount={vote.voteCount - 1}
+                      candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
+                      candidateStyleProp={''}
+                    />
+                  </React.Fragment>
+                );
+              }
               return (
-                <React.Fragment key={vote.firstChoiceCandidate}>
-                  <VoteLine
-                    voteCount={1}
-                    candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
-                    candidateStyleProp={`${styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]} ${styles.yourVote}`}
-                  />
-                  <VoteLine
-                    voteCount={vote.voteCount - 1}
-                    candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
-                    candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]}
-                  />
-                </React.Fragment>
+                <VoteLine
+                  key={vote.firstChoiceCandidate}
+                  voteCount={vote.voteCount}
+                  candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
+                  candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]}
+                />
               );
-            }
-            return (
-              <VoteLine
-                key={vote.firstChoiceCandidate}
-                voteCount={vote.voteCount}
-                candidateStyleNumber={candidateMap.get(vote.firstChoiceCandidate)}
-                candidateStyleProp={styles['candidate' + candidateMap.get(vote.firstChoiceCandidate)]}
-              />
-            );
-          })}
-        </div>
-      ))}
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
