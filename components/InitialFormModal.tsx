@@ -26,7 +26,7 @@ export function InitialFormModal() {
 
   async function onSubmit(understandingResponse: number) {
     if (understandingResponse === undefined || !(0 <= understandingResponse && understandingResponse <= 3)) {
-      alert(`Response is required, got ${understandingResponse}`);
+      alert(`Response is required`);
       return;
     }
     const formURL = `https://docs.google.com/forms/d/e/1FAIpQLSebLC3w9orn8keIR69CqgBtaR7i-fSLAaMZnUKyhcxZfn16IQ/formResponse?usp=pp_url&entry.627021736=${userID}&entry.675560448=${understandingResponse}&submit=Submit`
