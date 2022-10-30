@@ -6,7 +6,6 @@ import type { NextPage } from 'next';
 import Button from '@mui/material/Button';
 
 import styles from '../styles/Home.module.css';
-import { InitialFormModal } from '../components/InitialFormModal';
 
 const Home: NextPage = () => {
   const GTM_ID = 'GTM-55QBJ7M';
@@ -24,7 +23,6 @@ const Home: NextPage = () => {
           `}
       </Script>
       {/* End Google Tag Manager */}
-      <InitialFormModal />
       <Head>
         <title>Ranked Choice Voting</title>
         <meta name="description" content="A way to vote more sensibly" />

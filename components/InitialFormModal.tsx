@@ -8,10 +8,6 @@ import Typography from '@mui/material/Typography';
 import { useUserID } from '../hooks/useUserID';
 import styles from './InitialFormModal.module.css';
 
-//{[...Array(11).keys()].map((num: number) => (
-//  <Box className={styles.numberBox}>{num}</Box>
-//))}
-
 export function InitialFormModal() {
   const [firstFormStatus, setFirstFormStatus] = useState<string>();
   const userID = useUserID();
@@ -30,8 +26,6 @@ export function InitialFormModal() {
       return;
     }
     const formURL = `https://docs.google.com/forms/d/e/1FAIpQLSebLC3w9orn8keIR69CqgBtaR7i-fSLAaMZnUKyhcxZfn16IQ/formResponse?usp=pp_url&entry.627021736=${userID}&entry.675560448=${understandingResponse}&submit=Submit`
-    console.log("FORM URL")
-    console.log(formURL)
     localStorage.setItem('firstFormStatus', 'filled');
     setFirstFormStatus('filled');
     // We use no-cors here because google form doesn't give a proper response if the form is not being submitted
@@ -44,7 +38,7 @@ export function InitialFormModal() {
     <Modal open={true} onClose={onSubmit} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
       <Box className={styles.modal}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          I understand Ranked Choice Voting.
+          I understand Ranked Choice Voting:
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left', margin: '1rem' }}>
           <Button onClick={()=>{onSubmit(0)}} variant="contained" sx={{ marginBottom: '0.5rem' }}>
