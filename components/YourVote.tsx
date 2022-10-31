@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useFetch } from '../hooks/useFetch';
 import { GetVote } from './api';
-import CandidateChoiceBox from './CandidateChoiceBox';
+import Typography from '@mui/material/Typography';
+import styles from './YourVote.module.css';
 
 type Props = {
   pollId: string;
@@ -17,11 +18,18 @@ function YourVote({ pollId }: Props) {
 
   return (
     <>
-      <div style={{margin: '1rem'}}>Your Choices:</div>
+      <Typography variant="h5">Your Choices were:</Typography>
+      <div className={styles.spacer}></div>
       {!voteData.isInitial && !voteData.isSuccess && <>You have not voted yet</>}
-      {voteData.data && voteData?.data?.map((ballot: VoteBallot, i: number) => (
-        <CandidateChoiceBox key={i} width="100%">{ballot.candidate.name}</CandidateChoiceBox>
-      ))}
+      {voteData.data &&
+        voteData?.data?.map((ballot: VoteBallot, i: number) => (
+          <div className={styles.choiceWrapper} key={i}>
+            <Typography variant="h5">{i + 1}:</Typography>
+            <div className={styles.candidateName}>
+              <Typography variant="subtitle2">{ballot.candidate.name}</Typography>
+            </div>
+          </div>
+        ))}
     </>
   );
 }

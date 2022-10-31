@@ -22,11 +22,10 @@ const SidebarButton = (props: any) => (
 type Props = {
   onShareClick: React.MouseEventHandler<HTMLButtonElement>;
   onEditClick: React.MouseEventHandler<HTMLButtonElement>;
-  onCloseClick: React.MouseEventHandler<HTMLButtonElement>;
   showEditButton: boolean;
 };
 
-const VotePageSidebar = ({ onShareClick, onEditClick, onCloseClick, showEditButton }: Props) => {
+const VotePageSidebar = ({ onShareClick, onEditClick, showEditButton }: Props) => {
   return (
     <div
       style={{
@@ -45,9 +44,6 @@ const VotePageSidebar = ({ onShareClick, onEditClick, onCloseClick, showEditButt
           Edit Poll
         </SidebarButton>
       )}
-      <SidebarButton variant="outlined" onClick={onCloseClick}>
-        Close Poll
-      </SidebarButton>
     </div>
   );
 };
@@ -84,7 +80,6 @@ function VotePage() {
           onEditClick={() => {
             router.push(`/updatePoll/${pollData?.data?.pollId}`);
           }}
-          onCloseClick={() => {}}
           showEditButton={pollData.data?.userIsCreator || false}
         />
       }

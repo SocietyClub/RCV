@@ -33,6 +33,9 @@ export const getBgColorStyleObject = (number: number | undefined) => {
  */
 export const selectColorHSL = (number: number) => {
   // Use Golden Angle approximation to generate unique colors that are good for humans to distinguish
+  // Golden Angles are mostly to mix hue, due to the second and seveth hues being very similar greens, we use the same
+    // principle to have randomish lighting (anywhere from 50-85) to distingush the colors better
   const hue = number * 137.508;
-  return `hsl(${hue}, 100%, 50%)`;
+  const light = (number * 137.508) % 35 + 50;
+  return `hsl(${hue}, 100%, ${light}%)`;
 }
