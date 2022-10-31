@@ -6,14 +6,15 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 
 import { useUserID } from '../hooks/useUserID';
-import styles from './InitialFormModal.module.css';
+import styles from './FormModalFirstVisit.module.css';
 
-export function InitialFormModal() {
+export function FormModalFirstVisit() {
   const [firstFormStatus, setFirstFormStatus] = useState<string>();
+  const localStorageKey = 'endFormStatus';
   const userID = useUserID();
 
   useEffect(() => {
-    setFirstFormStatus(localStorage.getItem('firstFormStatus') || 'not_filled');
+    setFirstFormStatus(localStorage.getItem(localStorageKey) || 'not_filled');
   }, [setFirstFormStatus]);
 
   if (firstFormStatus === undefined || firstFormStatus === 'filled') {
@@ -26,7 +27,7 @@ export function InitialFormModal() {
       return;
     }
     const formURL = `https://docs.google.com/forms/d/e/1FAIpQLSebLC3w9orn8keIR69CqgBtaR7i-fSLAaMZnUKyhcxZfn16IQ/formResponse?usp=pp_url&entry.627021736=${userID}&entry.675560448=${understandingResponse}&submit=Submit`
-    localStorage.setItem('firstFormStatus', 'filled');
+    localStorage.setItem(localStorageKey, 'filled');
     setFirstFormStatus('filled');
     // We use no-cors here because google form doesn't give a proper response if the form is not being submitted
     // through the site, though the form still submits

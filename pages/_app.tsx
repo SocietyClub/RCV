@@ -8,7 +8,7 @@ import { StyledEngineProvider } from '@mui/material/styles';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { InitialFormModal } from '../components/InitialFormModal';
+import { FormModalFirstVisit } from '../components/FormModalFirstVisit';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CookiesProvider>
-          <InitialFormModal />
+          <FormModalFirstVisit />
           <Header />
           <Component {...pageProps} />
           <Footer />
