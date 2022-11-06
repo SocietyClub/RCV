@@ -1,0 +1,27 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  position: absolute;
+  padding: 2rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  boxShadow: 24;
+  p: 4;
+}
+
+/* FIELDS */
+.numberBox {
+  width: 2.8125rem;
+  min-width: 2.8125rem;
+  height: 2.8125rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.textField {
+  width: 100%;
+}
