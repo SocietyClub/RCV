@@ -1,18 +1,20 @@
+import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
-import Page from '../../../components/Page';
-import styles from './results.module.css';
-import { GetPollResultsRequest } from '../../../components/api';
-import { useFetch } from '../../../hooks/useFetch';
-import YourVote from '../../../components/YourVote';
-import StepVisualization from '../../../components/StepVisualization';
-import VoteLine from '../../../components/VoteLine';
+
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import Icon from '@mui/material/Icon';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+
+import Page from '../../../components/Page';
+import StepVisualization from '../../../components/StepVisualization';
+import VoteLine from '../../../components/VoteLine';
+import YourVote from '../../../components/YourVote';
+import styles from './results.module.css';
+import { FormModalEndOfResultButton  } from '../../../components/FormModalEndOfResultButton';
+import { GetPollResultsRequest } from '../../../components/api';
+import { useFetch } from '../../../hooks/useFetch';
 
 const PollResultsPage: NextPage = () => {
   const router = useRouter();
@@ -95,8 +97,12 @@ const PollResultsPage: NextPage = () => {
               </div>
               <div className={styles.yourVoteExampleContainer}>
                 <Typography variant="subtitle2">Your vote is seen with border:</Typography>
+
                 <VoteLine candidateStyleNumber={0} voteCount={1} candidateStyleProp={styles.yourVoteExample} />
               </div>
+
+              <FormModalEndOfResultButton />
+
               <div className={styles.yourVote}>
                 <YourVote pollId={String(id)} />
               </div>
