@@ -31,7 +31,10 @@ const CandidateInputList = (props: Props) => {
   };
 
   const setFocusToLastCandidate = useCallback(() => {
-    const lastCandidateTextInput = document.querySelectorAll('.' + props.textFieldClassName + ':last-of-type input')[0] as HTMLInputElement;
+    // Query selecting the textFieldClassName with last-of-type will return all
+    // the candidate input boxes instead of just the last one.
+    // The at(-1) ensure the last input is returned
+    const lastCandidateTextInput = Array.from(document.querySelectorAll('.' + props.textFieldClassName + ':last-of-type input')).at(-1) as HTMLInputElement;
     if (lastCandidateTextInput && lastCandidateTextInput.focus) {
       lastCandidateTextInput.focus();
     }
