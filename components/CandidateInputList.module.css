@@ -1,3 +1,7 @@
 .addCandidateButton {
   width: 200px;
 }
+
+.candidateInputRow {
+  display: flex;
+}

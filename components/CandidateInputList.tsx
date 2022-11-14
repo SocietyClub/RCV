@@ -31,11 +31,11 @@ const CandidateInputList = (props: Props) => {
   };
 
   const setFocusToLastCandidate = useCallback(() => {
-    const lastCandidateTextInput = document.querySelectorAll('.' + props.textFieldClassName + ':last-of-type input')[0] as HTMLInputElement;
+    const lastCandidateTextInput = document.querySelectorAll('.' + styles.candidateInputRow + ':last-of-type input')[0] as HTMLInputElement;
     if (lastCandidateTextInput && lastCandidateTextInput.focus) {
       lastCandidateTextInput.focus();
     }
-  }, [props.textFieldClassName]);
+  }, [styles.candidateInputRow]);
 
   const handleEnterKey = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
@@ -59,7 +59,7 @@ const CandidateInputList = (props: Props) => {
     <>
       <Typography variant="h4">Candidates</Typography>
       {props.candidateList.map((candidate, i) => (
-        <div key={i} style={{display: "flex"}}>
+        <div key={i} className={styles.candidateInputRow}>
           <TextField
             style={{flexGrow: 1}}
             key={i}
