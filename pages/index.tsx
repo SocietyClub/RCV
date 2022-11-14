@@ -113,7 +113,8 @@ const Home: NextPage = () => {
               <p>Problems with the app? </p>
             </b>
             <p>Email teamsocietyclub@gmail.com</p>
-            <br />
+            <div className={styles.spacer} />
+            <div className={styles.spacer} />
           </div>
         </div>
       </main>
