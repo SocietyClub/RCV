@@ -117,6 +117,8 @@ const Home: NextPage = () => {
             <p>Email teamsocietyclub@gmail.com</p>
           </div>
         </div>
+        <div className={styles.spacer} />
+        <div className={styles.spacer} />
       </main>
     </>
   );
