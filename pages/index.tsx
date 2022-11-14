@@ -29,13 +29,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1 className={styles.title}>Ranked Choice Voting</h1>
+        <div className={styles.primaryBackground}>
+          <h1 className={styles.title}>Ranked Choice Voting</h1>
 
-        <div className={styles.spacer} />
+          <div className={styles.spacer} />
 
-        <Button variant="contained" onClick={_ => Router.push('/createPoll')}>
-          Create Poll
-        </Button>
+          <Button variant="contained" onClick={_ => Router.push('/createPoll')}>
+            Create Poll
+          </Button>
+        </div>
 
         <div className={styles.variedBackground}>
           <h1>What is RCV?</h1>
@@ -58,7 +60,7 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <div>
+        <div className={styles.primaryBackground}>
           <h1>Public polls:</h1>
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1rem' }}>
             <Button variant="outlined" href="/vote/5939e799-bc40-43e3-a500-5a306ccc84a7">
@@ -90,7 +92,7 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <div>
+        <div className={styles.primaryBackground}>
           <h1>
             <u>FAQs</u>
           </h1>
@@ -113,10 +115,10 @@ const Home: NextPage = () => {
               <p>Problems with the app? </p>
             </b>
             <p>Email teamsocietyclub@gmail.com</p>
-            <div className={styles.spacer} />
-            <div className={styles.spacer} />
           </div>
         </div>
+        <div className={styles.spacer} />
+        <div className={styles.spacer} />
       </main>
     </>
   );
