@@ -58,22 +58,39 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <div className={styles.grid}>
-          <div className={styles.card}>
-            <h2>Create</h2>
-            <p>Create a poll and get a link</p>
-          </div>
-          <div className={styles.card}>
-            <h2>Vote</h2>
-            <p>Share your poll with your voters</p>
-          </div>
-          <div className={styles.card}>
-            <h2>Compute</h2>
-            <p>Our app will find the ideal winner</p>
+        <div>
+          <h1>Public polls:</h1>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1rem' }}>
+            <Button variant="outlined" href="/vote/5939e799-bc40-43e3-a500-5a306ccc84a7">
+              What is the best pizza topping?
+            </Button>
+            <Button variant="outlined" href="vote/efa79e08-c094-42ab-b100-6e50fc65d343">
+              What is the best color?
+            </Button>
+            <Button variant="outlined" href="vote/0824f9ef-1f38-4054-8e62-4c335c45d53a">
+              What is the best season?
+            </Button>
           </div>
         </div>
 
         <div className={styles.variedBackground}>
+          <div className={styles.grid}>
+            <div className={styles.card}>
+              <h2>Create</h2>
+              <p>Create a poll and get a link</p>
+            </div>
+            <div className={styles.card}>
+              <h2>Vote</h2>
+              <p>Share your poll with your voters</p>
+            </div>
+            <div className={styles.card}>
+              <h2>Compute</h2>
+              <p>Our app will find the ideal winner</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
           <h1>
             <u>FAQs</u>
           </h1>
