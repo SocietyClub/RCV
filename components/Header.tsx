@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 
 function Header() {
@@ -6,7 +7,9 @@ function Header() {
     <AppBar position="static" color="primary">
       <Toolbar>
         <Typography variant="h6" className="title">
-          <a href="/" aria-label='home'>RCV</a>
+          <Link href="/" aria-label="home">
+            RCV
+          </Link>
         </Typography>
       </Toolbar>
     </AppBar>
